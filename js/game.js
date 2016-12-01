@@ -2,6 +2,9 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS);
 var platforms;
 var player;
 var hearts;
+var score = 0;
+var scoreTxt;
+
 
 
 var gameState = {
@@ -10,10 +13,12 @@ var gameState = {
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
     game.load.image('sky', 'assets/sky.png');
-    game.load.spritesheet('Little Jay', 'assets/Mac.png', 100, 100);
+    game.load.image('Mac', 'assets/Mac.png', 100, 100);
+    game.load.image('Mac-right', 'assets/Mac-run-right.png');
 
   },
   create: function(){
+
 
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -32,7 +37,7 @@ var gameState = {
     ledge = platforms.create(-150, 250, 'grass');
     ledge.body.immovable = true;
 
-    player = game.add.sprite(32, game.world.height -175, "Little Jay");
+    player = game.add.sprite(32, game.world.height -175, "Mac");
 
     game.physics.arcade.enable(player);
 
@@ -44,12 +49,13 @@ var gameState = {
 
     hearts.enableBody = true;
 
-    for(var i = 0; i < 12; i++){
+    for(var i = 0; i < 8; i++){
       var heart = hearts.create(i * 70, 0, 'heart');
 
       heart.body.gravity.y = 6;
 
     }
+    scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
 
   },
 
@@ -68,10 +74,26 @@ var gameState = {
 
     else if(cursors.right.isDown){
       player.body.velocity.x = 150;
+
+
     }
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -300;
+    }
+
+    game.physics.arcade.collide(hearts, platforms);
+    game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
+
+
+    function collectHearts (player, hearts) {
+
+    // Removes the star from the screen
+    hearts.kill();
+    score += 10;
+
+    scoreTxt.text = "score:" + score;
+
     }
 
 
@@ -80,6 +102,8 @@ var gameState = {
 
   }
 };
+
+
 
 game.state.add("GameState", gameState);
 game.state.start("GameState");
