@@ -4,6 +4,7 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,'gameDiv');
 var platforms;
 var player;
 var hearts;
+
 var score = 0;
 var scoreTxt;
 
@@ -17,7 +18,6 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.image('bullets', 'assets/bullet.png');
-
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
     game.load.image('sky', 'assets/sky.png');
@@ -26,26 +26,10 @@ var gameState = {
 
   },
   create: function(){
-
-    weapon = game.add.weapon(1, 'bullets');
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-
-    weapon.bulletAngleOffSet = 90;
-
-    weapon.bulletSpeed = 400;
-
-
-    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-
-
-
-
-
 // Give the game arcade like physics.
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-//Appends the sky img.
+//Appends the sky background.
     game.add.image(0, 0, 'sky');
 
 //Adds the ground and platform elements the canvas.
@@ -75,8 +59,20 @@ var gameState = {
     hearts = game.add.group();
 
     hearts.enableBody = true;
+
+  //Adds the weapon to the canvas.
+    weapon = game.add.weapon(30, 'bullets');
+
+    weapon.bulletTypeKill = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
+    weapon.bulletSpeed = 600;
+    weapon.fireRate = 100;
+
+    player.anchor.set(0.5);
+
     weapon.trackSprite(player, 0, 0, true);
 
+    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
     console.log(weapon);
 
 
@@ -109,18 +105,17 @@ var gameState = {
       player.body.velocity.x = -150;
     }
 
-    if(cursors.right.isDown){
+  else  if(cursors.right.isDown){
       player.body.velocity.x = 150;
 
 
     }
 
-       if(fireButton.isDown){
-          weapon.fire();
-        }
-
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -300;
+    }
+    if(fireButton.isDown){
+      weapon.fire();
     }
 
 
@@ -129,23 +124,16 @@ var gameState = {
     game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
 
 
+// Player and heart collision.
     function collectHearts (player, hearts) {
 
-    // Removes the star from the screen
+    // Removes the heart from the screen
     hearts.kill();
     score += 10;
 
     scoreTxt.text = "score:" + score;
 
-    }
-
-    function render(){
-       weapon.debug();
-    }
-
-
-
-
+  };
 
   }
 };
