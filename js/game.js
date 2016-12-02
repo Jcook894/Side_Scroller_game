@@ -17,6 +17,7 @@ var fireButton;
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
+    game.load.image('Aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
@@ -68,12 +69,14 @@ var gameState = {
     weapon.bulletSpeed = 600;
     weapon.fireRate = 100;
 
-    player.anchor.set(0.5);
+    player.anchor.set(0.8, 0.5);
 
     weapon.trackSprite(player, 0, 0, true);
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
     console.log(weapon);
+
+
 
 
 
