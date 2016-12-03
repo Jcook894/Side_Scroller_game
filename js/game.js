@@ -10,7 +10,10 @@ var scoreTxt;
 
 var cursors;
 var bullets;
+var bulletTime = 0;
 var fireButton;
+
+var aliens;
 
 
 
@@ -22,17 +25,14 @@ var gameState = {
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
     game.load.image('sky', 'assets/sky.png');
-    game.load.image('Mac', 'assets/Mac.png');
-
+    game.load.image('Mac', 'assets/Mac.png', 0, 0);
 
   },
   create: function(){
 // Give the game arcade like physics.
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
 //Appends the sky background.
     game.add.image(0, 0, 'sky');
-
 //Adds the ground and platform elements the canvas.
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -47,7 +47,6 @@ var gameState = {
     ledge.body.immovable = true;
 
     //Creates the player an puts it on the canvas.
-
     player = game.add.sprite(32, game.world.height -175, "Mac");
 
     game.physics.arcade.enable(player);
@@ -61,32 +60,21 @@ var gameState = {
 
     hearts.enableBody = true;
 
-  //Adds the weapon to the canvas.
-    weapon = game.add.weapon(30, 'bullets');
 
-    weapon.bulletTypeKill = Phaser.Weapon.KILL_WORLD_BOUNDS;
+//Puts bullets into a group and gives them physics.
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    bullets.createMultiple(50,'bullets');
+    bullets.setAll('anchor.x', -0.2);
+    bullets.setAll('anchor.y', -1);
+    bullets.setAll('outOfBoundsKill', true);
+    bullets.setAll('checkWorldBounds', true);
 
-    weapon.bulletSpeed = 900;
-    weapon.fireRate = 100;
+    player.anchor.x = 0.5;
 
-    player.anchor.set(0.8, 0.6);
-
-    weapon.trackSprite(player, 0, 0, true);
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-    console.log(weapon);
-
-    aliens = game.add.group();
-
-    for(var i = 0; i < 12; i++){
-
-      aliens.create(game.rnd.integerInRange(0, 128), game.world.randomY, 'aliens');
-
-    };
-
-
-
-
 
 
 
@@ -106,11 +94,16 @@ var gameState = {
 
   update: function(){
 
+
+    game.physics.arcade.collide(player, aliens);
+
     // Basically an event listener for the keys.
 
     cursors = game.input.keyboard.createCursorKeys();
 
     var onPlatform = game.physics.arcade.collide(player,platforms);
+
+
 
     player.body.velocity.x = 0;
 
@@ -128,17 +121,29 @@ var gameState = {
       player.body.velocity.y = -300;
     }
     if(fireButton.isDown){
-      weapon.fire();
+      fireGun();
     }
 
 
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
+
+    game.physics.arcade.collide(aliens, platforms);
     game.physics.arcade.collide(hearts, platforms);
     game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
 
-    aliens.y += 0.1;
-    aliens.x += 0.1;
+    function fireGun(){
+      if(game.time.now > bulletTime)
+    {
+      bullet = bullets.getFirstExists(false);
+    }
 
+    if(bullet)
+    {
+      bullet.reset(player.x,player.y);
+      bullet.body.velocity.x = 350;
+      bulletTime = game.time.now + 80;
+    }
+  };
 
 // Player and heart collision.
     function collectHearts (player, hearts) {
