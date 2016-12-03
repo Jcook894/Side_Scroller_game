@@ -74,6 +74,7 @@ var gameState = {
     player.anchor.x = 0.5;
 
 
+
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
 
@@ -92,7 +93,6 @@ var gameState = {
 
 
 //Adds Aliens to the canvas and gives them movement.
-
   aliens = game.add.group();
   aliens.enableBody = true;
 
@@ -119,8 +119,6 @@ var gameState = {
 
     var onPlatform = game.physics.arcade.collide(player,platforms);
 
-
-
     player.body.velocity.x = 0;
 
     if(cursors.left.isDown){
@@ -145,6 +143,8 @@ var gameState = {
 
 
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
+game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
+
 
     game.physics.arcade.collide(aliens, platforms);
     game.physics.arcade.collide(hearts, platforms);
@@ -175,6 +175,16 @@ var gameState = {
     // Removes the heart from the screen
     hearts.kill();
     score += 10;
+
+    scoreTxt.text = "score:" + score;
+
+  };
+
+  function collisionHandler(bullet, alien){
+
+    bullet.kill();
+    alien.kill();
+    score += 100;
 
     scoreTxt.text = "score:" + score;
 
