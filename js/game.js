@@ -66,8 +66,8 @@ var gameState = {
     bullets.enableBody = true;
     bullets.physicsBodyType = Phaser.Physics.ARCADE;
     bullets.createMultiple(50,'bullets');
-    bullets.setAll('anchor.x', -0.2);
-    bullets.setAll('anchor.y', -1);
+    bullets.setAll('anchor.x', -2);
+    bullets.setAll('anchor.y', -3);
     bullets.setAll('outOfBoundsKill', true);
     bullets.setAll('checkWorldBounds', true);
 
@@ -87,8 +87,24 @@ var gameState = {
 
     }
 
-    // Adds score text to the canvas.
+// Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
+
+
+//Adds Aliens to the canvas and gives them movement.
+
+  aliens = game.add.group();
+  aliens.enableBody = true;
+
+  for(var i = 0; i < 12; i++){
+    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
+
+    create.name = "alien" + create;
+    create.body.collideWorldBounds = true;
+    create.body.bounce.setTo(0.5, 0.5);
+    create.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+  }
+
 
   },
 
@@ -146,10 +162,9 @@ var gameState = {
       bullet.body.velocity.x = 350;
       bulletTime = game.time.now + 80;
     }
-    
+
      if (cursors.left.isDown) {
       bullet.body.velocity.x = -350;
-
 
     }
   };
