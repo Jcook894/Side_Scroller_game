@@ -109,6 +109,7 @@ var gameState = {
 
     if(cursors.left.isDown){
       player.body.velocity.x = -150;
+
     }
 
   else  if(cursors.right.isDown){
@@ -123,6 +124,8 @@ var gameState = {
     if(fireButton.isDown){
       fireGun();
     }
+
+
 
 
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
@@ -143,6 +146,12 @@ var gameState = {
       bullet.body.velocity.x = 350;
       bulletTime = game.time.now + 80;
     }
+    
+     if (cursors.left.isDown) {
+      bullet.body.velocity.x = -350;
+
+
+    }
   };
 
 // Player and heart collision.
@@ -155,6 +164,7 @@ var gameState = {
     scoreTxt.text = "score:" + score;
 
   };
+
 
   }
 };
