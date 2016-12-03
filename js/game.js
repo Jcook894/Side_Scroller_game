@@ -17,12 +17,12 @@ var fireButton;
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
-    game.load.image('Aliens', 'assets/Invaders.png');
+    game.load.image('aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
     game.load.image('sky', 'assets/sky.png');
-    game.load.image('Mac', 'assets/Mac.png', 50, 50);
+    game.load.image('Mac', 'assets/Mac.png');
 
 
   },
@@ -66,15 +66,25 @@ var gameState = {
 
     weapon.bulletTypeKill = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
-    weapon.bulletSpeed = 600;
+    weapon.bulletSpeed = 900;
     weapon.fireRate = 100;
 
-    player.anchor.set(0.8, 0.5);
+    player.anchor.set(0.8, 0.6);
 
     weapon.trackSprite(player, 0, 0, true);
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
     console.log(weapon);
+
+    aliens = game.add.group();
+
+    for(var i = 0; i < 12; i++){
+
+      aliens.create(game.rnd.integerInRange(0, 128), game.world.randomY, 'aliens');
+
+    };
+
+
 
 
 
@@ -125,6 +135,9 @@ var gameState = {
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
     game.physics.arcade.collide(hearts, platforms);
     game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
+
+    aliens.y += 0.1;
+    aliens.x += 0.1;
 
 
 // Player and heart collision.
