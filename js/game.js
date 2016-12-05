@@ -24,7 +24,7 @@ var gameState = {
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('grass', 'assets/platform.png');
-    game.load.image('sky', 'assets/sky.png');
+    game.load.image('background', 'assets/bckgrnd.png');
     game.load.image('Mac', 'assets/Mac.png', 0, 0);
 
   },
@@ -32,7 +32,7 @@ var gameState = {
 // Give the game arcade like physics.
     game.physics.startSystem(Phaser.Physics.ARCADE);
 //Appends the sky background.
-    game.add.image(0, 0, 'sky');
+    game.add.tileSprite(0, 0, 1000, 1000, 'background');
 //Adds the ground and platform elements the canvas.
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -41,7 +41,7 @@ var gameState = {
     grass.scale.setTo(2,2);
     grass.body.immovable = true;
 
-    var ledge = platforms.create(400, 400, 'grass');
+    var ledge = platforms.create(-300, 400, 'grass');
     ledge.body.immovable = true;
     ledge = platforms.create(-150, 250, 'grass');
     ledge.body.immovable = true;
@@ -77,6 +77,11 @@ var gameState = {
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
+//sets the canvas bounds to 1920 x 1920.
+    game.world.setBounds(0, 0, 1000, 1000);
+
+    game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+
 
 
 //loops the hearts and appends them to the page, with a space of 70px between each other.
@@ -90,13 +95,14 @@ var gameState = {
 
 // Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
+    scoreTxt.fixedToCamera = true;
 
 
 //Adds Aliens to the canvas and gives them movement.
   aliens = game.add.group();
   aliens.enableBody = true;
 
-  for(var i = 0; i < 12; i++){
+  for(var i = 0; i < 120; i++){
     var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
 
     create.name = "alien" + create;
