@@ -23,8 +23,10 @@ var gameState = {
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('heart', 'assets/heart.png');
-    game.load.image('grass', 'assets/platform.png');
+    game.load.image('platform','assets/platform.png');
+    game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
+    game.load.image('Mac-left', 'assets/Mac_left.png');
     game.load.image('Mac', 'assets/Mac.png', 0, 0);
 
   },
@@ -32,18 +34,18 @@ var gameState = {
 // Give the game arcade like physics.
     game.physics.startSystem(Phaser.Physics.ARCADE);
 //Appends the sky background.
-    game.add.tileSprite(0, 0, 1000, 1000, 'background');
+    game.add.tileSprite(0, 0, 1900, 600, 'background');
 //Adds the ground and platform elements the canvas.
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    var grass = platforms.create(0, game.world.height - 64, 'grass');
-    grass.scale.setTo(2,2);
+    var grass = platforms.create(0, game.world.height - 50, 'grass');
+    grass.scale.setTo(2,12);
     grass.body.immovable = true;
 
-    var ledge = platforms.create(-300, 400, 'grass');
+    var ledge = platforms.create(-300, 400, 'platform');
     ledge.body.immovable = true;
-    ledge = platforms.create(-150, 250, 'grass');
+    ledge = platforms.create(-150, 250, 'platform');
     ledge.body.immovable = true;
 
     //Creates the player an puts it on the canvas.
@@ -78,7 +80,8 @@ var gameState = {
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
 //sets the canvas bounds to 1920 x 1920.
-    game.world.setBounds(0, 0, 1000, 1000);
+    game.world.setBounds(0, 0, 1900, 605);
+
 
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
@@ -135,7 +138,6 @@ var gameState = {
   else  if(cursors.right.isDown){
       player.body.velocity.x = 150;
 
-
     }
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
@@ -172,6 +174,9 @@ game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
      if (cursors.left.isDown) {
       bullet.body.velocity.x = -350;
 
+    }
+    if(cursors.up.isDown){
+      bullet.body.velocity.y = -350;
     }
   };
 
