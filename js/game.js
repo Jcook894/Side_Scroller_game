@@ -105,7 +105,7 @@ var gameState = {
   aliens = game.add.group();
   aliens.enableBody = true;
 
-  for(var i = 0; i < 120; i++){
+  for(var i = 0; i < 50; i++){
     var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
 
     create.name = "alien" + create;
@@ -120,7 +120,7 @@ var gameState = {
   update: function(){
 
 
-    game.physics.arcade.collide(player, aliens);
+    //game.physics.arcade.collide(player, aliens);
 
     // Basically an event listener for the keys.
 
@@ -151,8 +151,9 @@ var gameState = {
 
 
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
-game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
+game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
+game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
     game.physics.arcade.collide(aliens, platforms);
     game.physics.arcade.collide(hearts, platforms);
@@ -191,7 +192,7 @@ game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
 
   };
 
-  function collisionHandler(bullet, alien){
+  function bulletCollision(bullet, alien){
 
     bullet.kill();
     alien.kill();
@@ -200,6 +201,13 @@ game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
     scoreTxt.text = "score:" + score;
 
   };
+
+  function enemyCollision(alien, player){
+    player.kill();
+    bullets.kill();
+
+    score -= 100;
+  }
 
 
   }
