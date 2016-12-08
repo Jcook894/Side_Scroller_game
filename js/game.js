@@ -43,9 +43,13 @@ var gameState = {
     grass.scale.setTo(2,12);
     grass.body.immovable = true;
 
-    var ledge = platforms.create(-300, 400, 'platform');
+    var ledge = platforms.create(300, 400, 'platform');
     ledge.body.immovable = true;
-    ledge = platforms.create(-150, 250, 'platform');
+
+    ledge = platforms.create(650, 250, 'platform');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(850, 200, 'platform');
     ledge.body.immovable = true;
 
     //Creates the player an puts it on the canvas.
@@ -89,8 +93,8 @@ var gameState = {
 
 
 //loops the hearts and appends them to the page, with a space of 70px between each other.
-    for(var i = 0; i < 8; i++){
-      var heart = hearts.create(i * 70, 0, 'heart');
+    for(var i = 0; i < 20; i++){
+      var heart = hearts.create(i * 500, 0, 'heart');
 
 //Makes the hearts float down the canvas.
       heart.body.gravity.y = 6;
@@ -122,30 +126,11 @@ var gameState = {
          ufos.body.collideWorldBounds = true;
          ufos.frame = game.rnd.integerInRange(0,36);
        }
-     }
+     };
 
-//Adds Aliens to the canvas and gives them movement.
-/*function updateAlien(){
-
-  aliens = game.add.group();
-  aliens.enableBody = true;
-  for(var i = 0; i < 5; i++){
-    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
-
-    create.name = "alien" + create;
-    create.body.collideWorldBounds = true;
-    create.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
-  }
-}*/
-
-
-  //game.time.events.repeat(Phaser.Timer.SECOND * 3, 20, updateAlien, this);
   },
 
   update: function(){
-
-
-    //game.physics.arcade.collide(player, aliens);
 
     // Basically an event listener for the keys.
 
@@ -227,7 +212,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   };
 
   function enemyCollision(player, bullet){
-    bullet.kill();
+
     player.kill();
     score -= 100;
   }
