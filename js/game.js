@@ -40,16 +40,17 @@ var gameState = {
     platforms.enableBody = true;
 
     var grass = platforms.create(0, game.world.height - 50, 'grass');
-    grass.scale.setTo(2,12);
+    grass.scale.setTo(2,8);
     grass.body.immovable = true;
 
+ //Adding multiple platforms to the game.
     var ledge = platforms.create(300, 400, 'platform');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(650, 250, 'platform');
+    ledge = platforms.create(750, 250, 'platform');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(850, 200, 'platform');
+    ledge = platforms.create(1400, 300, 'platform');
     ledge.body.immovable = true;
 
     //Creates the player an puts it on the canvas.
@@ -59,7 +60,7 @@ var gameState = {
 
 // Gives the sprite physics when the player jumps.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 400;
     player.body.collideWorldBounds = true;
 
     hearts = game.add.group();
@@ -151,8 +152,9 @@ var gameState = {
     }
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
-      player.body.velocity.y = -300;
+      player.body.velocity.y = -350;
     }
+
     if(fireButton.isDown){
       fireGun();
     }
@@ -187,7 +189,10 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
     }
     if(cursors.up.isDown){
-      bullet.body.velocity.y = -350;
+      bullet.body.velocity.y = -350
+    }
+    if(cursors.down.isDown){
+      bullet.body.velocity.y = 350;
     }
   };
 
