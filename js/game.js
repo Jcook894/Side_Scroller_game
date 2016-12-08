@@ -101,32 +101,51 @@ var gameState = {
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
 
+//Creates a group of 35 aliens.
+     aliens = game.add.group();
+     aliens.enableBody = true;
+     aliens.createMultiple(35, 'aliens', 0, false);
+
+
+     game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
+
+//ressurects the alien from the group and adds it to the group, and gives it movement & physics.
+     function resurrect() {
+       var ufos = aliens.getFirstDead();
+
+       if(ufos){
+         ufos.reset(game.world.randomX, game.world.randomY);
+
+         ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+
+         ufos.body.bounce.setTo(0.5, 0.5);
+         ufos.body.collideWorldBounds = true;
+         ufos.frame = game.rnd.integerInRange(0,36);
+       }
+     }
 
 //Adds Aliens to the canvas and gives them movement.
+/*function updateAlien(){
 
-function updateAlien(aliens){
   aliens = game.add.group();
   aliens.enableBody = true;
-
-  for(var i = 0; i < 50; i++){
-    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens');
+  for(var i = 0; i < 5; i++){
+    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
 
     create.name = "alien" + create;
     create.body.collideWorldBounds = true;
-    create.body.bounce.setTo(0.5, 0.5);
     create.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
   }
-
-}
-
-game.time.events.repeat(Phaser.Timer.SECOND * 2 , 10, updateAlien, this);
+}*/
 
 
+  //game.time.events.repeat(Phaser.Timer.SECOND * 3, 20, updateAlien, this);
   },
 
   update: function(){
 
-    game.physics.arcade.collide(player, aliens);
+
+    //game.physics.arcade.collide(player, aliens);
 
     // Basically an event listener for the keys.
 
@@ -208,11 +227,11 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   };
 
   function enemyCollision(player, bullet){
+    bullet.kill();
     player.kill();
     score -= 100;
   }
 
-  game.debug.text("Time till next alien: " + game.time.events.duration.toFixed(0), 32, 32);
 
   }
 };
