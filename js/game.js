@@ -87,6 +87,7 @@ var gameState = {
 
 
 
+
 //loops the hearts and appends them to the page, with a space of 70px between each other.
     for(var i = 0; i < 8; i++){
       var heart = hearts.create(i * 70, 0, 'heart');
@@ -102,11 +103,13 @@ var gameState = {
 
 
 //Adds Aliens to the canvas and gives them movement.
+
+function updateAlien(aliens){
   aliens = game.add.group();
   aliens.enableBody = true;
 
   for(var i = 0; i < 50; i++){
-    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens')
+    var create = aliens.create(game.world.randomX, game.world.randomX, 'aliens');
 
     create.name = "alien" + create;
     create.body.collideWorldBounds = true;
@@ -114,13 +117,16 @@ var gameState = {
     create.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
   }
 
+}
+
+game.time.events.repeat(Phaser.Timer.SECOND * 2 , 10, updateAlien, this);
+
 
   },
 
   update: function(){
 
-
-    //game.physics.arcade.collide(player, aliens);
+    game.physics.arcade.collide(player, aliens);
 
     // Basically an event listener for the keys.
 
@@ -193,7 +199,6 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   };
 
   function bulletCollision(bullet, alien){
-
     bullet.kill();
     alien.kill();
     score += 100;
@@ -202,13 +207,12 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
   };
 
-  function enemyCollision(alien, player){
+  function enemyCollision(player, bullet){
     player.kill();
-    bullets.kill();
-
     score -= 100;
   }
 
+  game.debug.text("Time till next alien: " + game.time.events.duration.toFixed(0), 32, 32);
 
   }
 };
