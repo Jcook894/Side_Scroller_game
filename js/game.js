@@ -28,7 +28,7 @@ var gameState = {
     game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
     game.load.image('Mac-left', 'assets/Mac_left.png');
-    game.load.image('Mac', 'assets/Mac.png', 0, 0);
+    game.load.image('Mac', 'assets/Mac.png');
 
   },
   create: function(){
@@ -73,10 +73,10 @@ var gameState = {
   var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
     livesTxt.fixedToCamera = true;
 
-    for(var i = 0; i < 3; i++){
-      var heart = lives.create(game.world.width - 100 + (30 * i), 60, "heart")
+//loops through the lives group and appends the hearts to corner of the screen.
+    for(var i = 0; i < 4; i++){
+      var heart = lives.create(game.world.width - 150 + (30 * i), 60, "heart")
       heart.fixedToCamera = true;
-
 
     }
 
@@ -228,9 +228,15 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   };
 
   function enemyCollision(player, bullet){
-
-    player.kill();
+    live = lives.getFirstAlive();
     score -= 100;
+    if(live){
+      live.kill();
+      player.reset(32, game.world.height -175)
+    }
+
+
+
   }
 
 
