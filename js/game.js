@@ -23,6 +23,7 @@ var gameState = {
   preload: function(){
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
+    game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('platform','assets/platform.png');
     game.load.image('grass', 'assets/grass1.png');
@@ -65,12 +66,12 @@ var gameState = {
     player.body.collideWorldBounds = true;
 
 // Adds hearts into a group.
-    hearts = game.add.group();
-    hearts.enableBody = true;
+    gems = game.add.group();
+    gems.enableBody = true;
 
 //Adds a group of lives to the screen.
     lives = game.add.group();
-  var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
+    var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
     livesTxt.fixedToCamera = true;
 
 //loops through the lives group and appends the hearts to corner of the screen.
@@ -108,10 +109,10 @@ var gameState = {
 
 //loops the hearts and appends them to the page, with a space of 70px between each other.
     for(var i = 0; i < 20; i++){
-      var heart = hearts.create(i * 500, 0, 'heart');
+      var gem = gems.create(i * 500, 0, 'gems');
 
 //Makes the hearts float down the canvas.
-      heart.body.gravity.y = 6;
+      gem.body.gravity.y = 6;
 
     }
 
@@ -179,8 +180,8 @@ game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
     game.physics.arcade.collide(aliens, platforms);
-    game.physics.arcade.collide(hearts, platforms);
-    game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
+    game.physics.arcade.collide(gems, platforms);
+    game.physics.arcade.overlap(player, gems, collectGems, null, this);
 
     function fireGun(){
       if(game.time.now > bulletTime)
@@ -208,10 +209,10 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   };
 
 // Player and heart collision.
-    function collectHearts (player, hearts) {
+    function collectGems (player, gems) {
 
 // Removes the heart from the screen and updates score.
-    hearts.kill();
+    gems.kill();
     score += 10;
 
     scoreTxt.text = "score:" + score;
@@ -235,10 +236,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
       player.reset(32, game.world.height -175)
     }
 
-
-
-  }
-
+  };
 
   }
 };
