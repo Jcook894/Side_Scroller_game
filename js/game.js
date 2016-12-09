@@ -70,10 +70,12 @@ var gameState = {
 
 //Adds a group of lives to the screen.
     lives = game.add.group();
-    game.add.text(game.world.width - 100, 10, "Lives: " );
+  var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
+    livesTxt.fixedToCamera = true;
 
     for(var i = 0; i < 3; i++){
       var heart = lives.create(game.world.width - 100 + (30 * i), 60, "heart")
+      heart.fixedToCamera = true;
 
 
     }
