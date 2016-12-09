@@ -4,6 +4,7 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,'gameDiv');
 var platforms;
 var player;
 var hearts;
+var lives;
 
 var score = 0;
 var scoreTxt;
@@ -58,14 +59,24 @@ var gameState = {
 
     game.physics.arcade.enable(player);
 
-// Gives the sprite physics when the player jumps.
+// Gives the sprite physics and weight when the player jumps.
     player.body.bounce.y = 0.2;
-    player.body.gravity.y = 400;
+    player.body.gravity.y = 500;
     player.body.collideWorldBounds = true;
 
+// Adds hearts into a group.
     hearts = game.add.group();
-
     hearts.enableBody = true;
+
+//Adds a group of lives to the screen.
+    lives = game.add.group();
+    game.add.text(game.world.width - 100, 10, "Lives: " );
+
+    for(var i = 0; i < 3; i++){
+      var heart = lives.create(game.world.width - 100 + (30 * i), 60, "heart")
+
+
+    }
 
 
 //Puts bullets into a group and gives them physics.
@@ -87,7 +98,7 @@ var gameState = {
 //sets the canvas bounds to 1920 x 1920.
     game.world.setBounds(0, 0, 1900, 605);
 
-
+//Camera that follows the player across the canvas.
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
 
@@ -133,7 +144,7 @@ var gameState = {
 
   update: function(){
 
-    // Basically an event listener for the keys.
+// Basically an event listener for the keys.
 
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -152,14 +163,12 @@ var gameState = {
     }
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
-      player.body.velocity.y = -350;
+      player.body.velocity.y = -400;
     }
 
     if(fireButton.isDown){
       fireGun();
     }
-
-
 
 
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
@@ -199,7 +208,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 // Player and heart collision.
     function collectHearts (player, hearts) {
 
-    // Removes the heart from the screen
+// Removes the heart from the screen and updates score.
     hearts.kill();
     score += 10;
 
