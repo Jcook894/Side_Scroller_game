@@ -78,8 +78,9 @@ var gameState = {
 
 //loops through the lives group and appends the hearts to corner of the screen.
     for(var i = 0; i < 4; i++){
-      var heart = lives.create(game.world.width - 150 + (30 * i), 60, "heart")
+      var heart = lives.create(game.world.width - 150 + (30 * i), 60, "heart");
       heart.fixedToCamera = true;
+
 
     }
 
@@ -120,6 +121,11 @@ var gameState = {
 // Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
+
+    deadTxt = game.add.text(350, 250, "YOU DIED!");
+    deadTxt.visible = false;
+    deadTxt.fixedToCamera = true;
+
 
 //Creates a group of 35 aliens.
      aliens = game.add.group();
@@ -237,6 +243,12 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
       player.reset(32, game.world.height -175)
     }
 
+//If lives are gone, kill player!
+    if(lives.countLiving() < 1){
+      player.kill();
+      console.log("dead");
+      deadTxt.visible = true;
+    }
   };
 
   }
