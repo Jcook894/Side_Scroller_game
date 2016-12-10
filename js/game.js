@@ -9,6 +9,8 @@ var lives;
 var score = 0;
 var scoreTxt;
 
+var deadTxt;
+
 var cursors;
 var bullets;
 var bulletTime = 0;
@@ -112,8 +114,7 @@ var gameState = {
       var gem = gems.create(i * 500, 0, 'gems');
 
 //Makes the hearts float down the canvas.
-      gem.body.gravity.y = 6;
-
+      gem.body.gravity.y = 100;
     }
 
 // Adds score text to the canvas.
@@ -213,7 +214,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
 // Removes the heart from the screen and updates score.
     gems.kill();
-    score += 10;
+    score += 100;
 
     scoreTxt.text = "score:" + score;
 
@@ -222,7 +223,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   function bulletCollision(bullet, alien){
     bullet.kill();
     alien.kill();
-    score += 100;
+    score += 200;
 
     scoreTxt.text = "score:" + score;
 
@@ -230,7 +231,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
   function enemyCollision(player, bullet){
     live = lives.getFirstAlive();
-    score -= 100;
+    score -= 500;
     if(live){
       live.kill();
       player.reset(32, game.world.height -175)
