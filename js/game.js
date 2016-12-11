@@ -8,6 +8,7 @@ var lives;
 
 var score = 0;
 var scoreTxt;
+var winTxt;
 
 var deadTxt;
 
@@ -121,17 +122,24 @@ var gameState = {
 // Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
+
 //when player dies, click screen to reset.
     deadTxt = game.add.text(250, 250, "You died! \
-click here to reset!");
+click here to reset");
     deadTxt.visible = false;
     deadTxt.fixedToCamera = true;
 
+//When player kills all aliens on canvas, you win!
+
+    winTxt = game.add.text(175, 250, "You Win!!!! Click here to play again!");
+    winTxt.visible = false;
+    winTxt.fixedToCamera = true;
 
 //Creates a group of 35 aliens.
      aliens = game.add.group();
      aliens.enableBody = true;
-     aliens.createMultiple(35, 'aliens', 0, false);
+     aliens.createMultiple(5, 'aliens', 0, false);
+
 
 
      game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
@@ -232,8 +240,16 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
     bullet.kill();
     alien.kill();
     score += 200;
-
     scoreTxt.text = "score:" + score;
+
+    if(aliens.countLiving() < 1){
+      player.kill();
+      winTxt.visible = true;
+      console.log("You win!");
+      game.input.onTap.addOnce(reset, this);
+
+
+    }
 
   };
 
@@ -261,8 +277,10 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 // Resets the canvas when player dies.
   function reset(){
     player.revive();
+    aliens.callAll('reset');
     lives.callAll('reset');
     deadTxt.visible = false;
+    winTxt.visible = false;
 
     score = 0;
   }
