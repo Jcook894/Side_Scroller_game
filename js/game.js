@@ -121,8 +121,9 @@ var gameState = {
 // Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
-
-    deadTxt = game.add.text(350, 250, "YOU DIED!");
+//when player dies, click screen to reset.
+    deadTxt = game.add.text(250, 250, "You died! \
+click here to reset!");
     deadTxt.visible = false;
     deadTxt.fixedToCamera = true;
 
@@ -226,6 +227,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
   };
 
+//Bullet and enemy collision handler.
   function bulletCollision(bullet, alien){
     bullet.kill();
     alien.kill();
@@ -235,21 +237,35 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
   };
 
+//Enemy and player collision.
   function enemyCollision(player, bullet){
+//Gets the first heart in the group.
     live = lives.getFirstAlive();
     score -= 500;
+
     if(live){
       live.kill();
       player.reset(32, game.world.height -175)
     }
 
-//If lives are gone, kill player!
+//If lives are gone, kill player and display text!
     if(lives.countLiving() < 1){
       player.kill();
       console.log("dead");
       deadTxt.visible = true;
+
+      game.input.onTap.addOnce(reset, this);
     }
   };
+
+// Resets the canvas when player dies.
+  function reset(){
+    player.revive();
+    lives.callAll('reset');
+    deadTxt.visible = false;
+
+    score = 0;
+  }
 
   }
 };
