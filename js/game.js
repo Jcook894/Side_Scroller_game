@@ -279,9 +279,9 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
     player.revive();
 
     lives.callAll('revive');
-
     aliens.removeAll();
-    resurrect();
+
+    game.state.start("GameState");
     deadTxt.visible = false;
     winTxt.visible = false;
 
