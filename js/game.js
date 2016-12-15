@@ -72,6 +72,7 @@ var gameState = {
     gems = game.add.group();
     gems.enableBody = true;
 
+function livesGroup(){
 //Adds a group of lives to the screen.
     lives = game.add.group();
     var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
@@ -84,8 +85,8 @@ var gameState = {
 
 
     }
-
-
+}
+  livesGroup();
 //Puts bullets into a group and gives them physics.
     bullets = game.add.group();
     bullets.enableBody = true;
@@ -275,21 +276,27 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
   }
 
 // Resets the canvas when player dies.
-  function reset(){
-    player.revive();
-
-    lives.callAll('revive');
-    aliens.removeAll();
-
-    game.state.start("GameState");
-    deadTxt.visible = false;
-    winTxt.visible = false;
-
-    score = 0;
-  }
 
   }
 };
+
+function reset(){
+
+
+  //player.revive();
+  lives.callAll();
+//aliens.removeAll();
+
+  //aliens.callAll('revive');
+//  deadTxt.visible = false;
+  //winTxt.visible = false;
+
+  //score = 0;
+
+  game.state.start("GameState");
+
+}
+
 
 
 
