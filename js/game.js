@@ -138,17 +138,23 @@ var gameState = {
     winTxt = game.add.text(175, 250, "You Win!!!! Click here to play again!");
     winTxt.visible = false;
     winTxt.fixedToCamera = true;
+    start();
+
+function start(){
+  createAliens();
+  startTimer();
+}
 
 //Creates a group of 35 aliens.
 function createAliens(){
      aliens = game.add.group();
      aliens.enableBody = true;
      aliens.createMultiple(35, 'aliens', 0, false);
+}
 
-
-
+function startTimer(){
      game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
-
+}
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
 function resurrect() {
        var ufos = aliens.getFirstDead();
@@ -163,7 +169,6 @@ function resurrect() {
          ufos.frame = game.rnd.integerInRange(0,36);
        }
      }
-}
   },
 
   update: function(){
@@ -258,15 +263,6 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
   }
 
-
-
-// Resets the canvas when player dies.
-
-
-
-  }
-};
-
 //Enemy and player collision.
   function enemyCollision(player, bullet){
 //Gets the first heart in the group.
@@ -288,19 +284,25 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
     }
   }
 
+// Resets the canvas when player dies.
 function restart(){
 
-  lives.callAll('revive');
+      aliens.callAll('kill');
+      lives.callAll('revive');
+      player.revive();
 
-  aliens.removeAll();
-  player.revive();
-  aliens.callAll('revive');
+      deadTxt.visible = false;
+      score = 0;
+      winTxt.visible = false;
 
-  deadTxt.visible = false;
-  score = 0;
-
-aliens.createMultiple(35, 'aliens', 0, false);
+      
 }
+
+
+  }
+};
+
+
 
 
 
