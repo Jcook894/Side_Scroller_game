@@ -5,6 +5,7 @@ var platforms;
 var player;
 var hearts;
 var lives;
+var livesTxt;
 
 var score = 0;
 var scoreTxt;
@@ -72,10 +73,9 @@ var gameState = {
     gems = game.add.group();
     gems.enableBody = true;
 
-function livesGroup(){
 //Adds a group of lives to the screen.
     lives = game.add.group();
-    var livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
+    livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
     livesTxt.fixedToCamera = true;
 
 //loops through the lives group and appends the hearts to corner of the screen.
@@ -84,9 +84,13 @@ function livesGroup(){
       heart.fixedToCamera = true;
 
 
+
     }
-}
-  livesGroup();
+
+
+
+
+
 //Puts bullets into a group and gives them physics.
     bullets = game.add.group();
     bullets.enableBody = true;
@@ -247,12 +251,21 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
       player.kill();
       winTxt.visible = true;
       console.log("You win!");
-      game.input.onTap.addOnce(reset, this);
+      game.input.onTap.addOnce(restart, this);
 
 
     }
 
   }
+
+
+
+// Resets the canvas when player dies.
+
+
+
+  }
+};
 
 //Enemy and player collision.
   function enemyCollision(player, bullet){
@@ -271,32 +284,23 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
       console.log("dead");
       deadTxt.visible = true;
 
-      game.input.onTap.addOnce(reset, this);
+      game.input.onTap.addOnce(restart, this);
     }
   }
 
-// Resets the canvas when player dies.
+function restart(){
 
-  }
-};
+  lives.callAll('revive');
 
-function reset(){
+  aliens.removeAll();
+  player.revive();
+  aliens.callAll('revive');
 
+  deadTxt.visible = false;
+  score = 0;
 
-  //player.revive();
-  lives.callAll();
-//aliens.removeAll();
-
-  //aliens.callAll('revive');
-//  deadTxt.visible = false;
-  //winTxt.visible = false;
-
-  //score = 0;
-
-  game.state.start("GameState");
-
+aliens.createMultiple(35, 'aliens', 0, false);
 }
-
 
 
 
