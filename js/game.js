@@ -11,6 +11,7 @@ var score = 0;
 var scoreTxt;
 var winTxt;
 
+
 var deadTxt;
 
 var cursors;
@@ -19,6 +20,100 @@ var bulletTime = 0;
 var fireButton;
 
 var aliens;
+
+function start(){
+    createAliens();
+    startTimer();
+  }
+
+  //Creates a group of 35 aliens.
+  function createAliens(){
+       aliens = game.add.group();
+       aliens.enableBody = true;
+       aliens.createMultiple(10, 'aliens', 0, false);
+  }
+
+  function startTimer(){
+       game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
+  }
+  //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
+  function resurrect() {
+         var ufos = aliens.getFirstDead();
+
+         if(ufos){
+           ufos.reset(game.world.randomX, game.world.randomY);
+
+           ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+
+           ufos.body.bounce.setTo(0.5, 0.5);
+           ufos.body.collideWorldBounds = true;
+           ufos.frame = game.rnd.integerInRange(0,36);
+         }
+       }
+       // Player and heart collision.
+           function collectGems (player, gems) {
+
+       // Removes the heart from the screen and updates score.
+           gems.kill();
+           score += 100;
+
+           scoreTxt.text = "score:" + score;
+
+         }
+
+       //Bullet and enemy collision handler.
+         function bulletCollision(bullet, alien){
+           bullet.kill();
+           alien.kill();
+           score += 200;
+           scoreTxt.text = "score:" + score;
+
+           if(aliens.countLiving() === 0){
+             player.kill();
+             winTxt.visible = true;
+             console.log("You win!");
+             game.input.onTap.addOnce(restart, this);
+
+
+           }
+
+         }
+
+       //Enemy and player collision.
+         function enemyCollision(player, bullet){
+       //Gets the first heart in the group.
+           live = lives.getFirstAlive();
+           score -= 500;
+
+           if(live){
+             live.kill();
+             player.reset(32, game.world.height -175);
+           }
+
+       //If lives are gone, kill player and display text!
+           if(lives.countLiving() === 0){
+             player.kill();
+             console.log("dead");
+             deadTxt.visible = true;
+
+             game.input.onTap.addOnce(restart, this);
+           }
+         }
+
+         // Resets the canvas when player dies.
+         function restart(){
+
+               aliens.callAll('kill');
+               lives.callAll('revive');
+               player.revive();
+
+
+               deadTxt.visible = false;
+               score = 0;
+               winTxt.visible = false;
+               startTimer();
+
+         }
 
 
 
@@ -103,7 +198,7 @@ var gameState = {
 
     player.anchor.x = 0.5;
 
-    createAliens();
+
 
     fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
@@ -138,37 +233,11 @@ var gameState = {
     winTxt = game.add.text(175, 250, "You Win!!!! Click here to play again!");
     winTxt.visible = false;
     winTxt.fixedToCamera = true;
+
+
     start();
+    createAliens();
 
-function start(){
-  createAliens();
-  startTimer();
-}
-
-//Creates a group of 35 aliens.
-function createAliens(){
-     aliens = game.add.group();
-     aliens.enableBody = true;
-     aliens.createMultiple(35, 'aliens', 0, false);
-}
-
-function startTimer(){
-     game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
-}
-//ressurects the alien from the group and adds it to the group, and gives it movement & physics.
-function resurrect() {
-       var ufos = aliens.getFirstDead();
-
-       if(ufos){
-         ufos.reset(game.world.randomX, game.world.randomY);
-
-         ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
-
-         ufos.body.bounce.setTo(0.5, 0.5);
-         ufos.body.collideWorldBounds = true;
-         ufos.frame = game.rnd.integerInRange(0,36);
-       }
-     }
   },
 
   update: function(){
@@ -234,74 +303,16 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
     }
   }
 
-// Player and heart collision.
-    function collectGems (player, gems) {
-
-// Removes the heart from the screen and updates score.
-    gems.kill();
-    score += 100;
-
-    scoreTxt.text = "score:" + score;
-
-  }
-
-//Bullet and enemy collision handler.
-  function bulletCollision(bullet, alien){
-    bullet.kill();
-    alien.kill();
-    score += 200;
-    scoreTxt.text = "score:" + score;
-
-    if(aliens.countLiving() < 1){
-      player.kill();
-      winTxt.visible = true;
-      console.log("You win!");
-      game.input.onTap.addOnce(restart, this);
 
 
-    }
 
-  }
 
-//Enemy and player collision.
-  function enemyCollision(player, bullet){
-//Gets the first heart in the group.
-    live = lives.getFirstAlive();
-    score -= 500;
-
-    if(live){
-      live.kill();
-      player.reset(32, game.world.height -175);
-    }
-
-//If lives are gone, kill player and display text!
-    if(lives.countLiving() === 0){
-      player.kill();
-      console.log("dead");
-      deadTxt.visible = true;
-
-      game.input.onTap.addOnce(restart, this);
-    }
-  }
-
-// Resets the canvas when player dies.
-function restart(){
-
-      aliens.callAll('kill');
-      lives.callAll('revive');
-      player.revive();
-
-      deadTxt.visible = false;
-      score = 0;
-      winTxt.visible = false;
-
-      
 }
 
 
-  }
-};
 
+
+};
 
 
 
