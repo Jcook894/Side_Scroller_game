@@ -30,7 +30,7 @@ function start(){
   function createAliens(){
        aliens = game.add.group();
        aliens.enableBody = true;
-       aliens.createMultiple(10, 'aliens', 0, false);
+       aliens.createMultiple(35, 'aliens', 0, false);
   }
 
   function startTimer(){
@@ -41,7 +41,7 @@ function start(){
          var ufos = aliens.getFirstDead();
 
          if(ufos){
-           ufos.reset(game.world.randomX, game.world.randomY);
+           ufos.reset(game.world.randomX       ,game.world.randomY);
 
            ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
 
@@ -100,17 +100,27 @@ function start(){
            }
          }
 
+         function gemFall(){
+         //loops the hearts and appends them to the page, with a space of 70px between each other.
+             for(var i = 0; i < 20; i++){
+               var gem = gems.create(i * 500, 10, 'gems');
+
+         //Makes the hearts float down the canvas.
+               gem.body.gravity.y = 100;
+             }
+         }
+
          // Resets the canvas when player dies.
          function restart(){
 
                aliens.callAll('kill');
                lives.callAll('revive');
+               gems.callAll('kill');
                player.revive();
-
-
                deadTxt.visible = false;
                score = 0;
                winTxt.visible = false;
+               gemFall();
                startTimer();
 
          }
@@ -209,16 +219,6 @@ var gameState = {
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
 
-
-
-//loops the hearts and appends them to the page, with a space of 70px between each other.
-    for(var i = 0; i < 20; i++){
-      var gem = gems.create(i * 500, 0, 'gems');
-
-//Makes the hearts float down the canvas.
-      gem.body.gravity.y = 100;
-    }
-
 // Adds score text to the canvas.
     scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
@@ -237,6 +237,7 @@ var gameState = {
 
     start();
     createAliens();
+    gemFall();
 
   },
 
@@ -274,38 +275,36 @@ game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
-    game.physics.arcade.collide(aliens, platforms);
-    game.physics.arcade.collide(gems, platforms);
-    game.physics.arcade.overlap(player, gems, collectGems, null, this);
+game.physics.arcade.collide(aliens, platforms);
+game.physics.arcade.collide(gems, platforms);
+game.physics.arcade.overlap(player, gems, collectGems, null, this);
 
-    function fireGun(){
-      if(game.time.now > bulletTime)
+function fireGun(){
+  if(game.time.now > bulletTime)
     {
       bullet = bullets.getFirstExists(false);
     }
 
-    if(bullet)
+  if(bullet)
     {
       bullet.reset(player.x,player.y);
       bullet.body.velocity.x = 350;
       bulletTime = game.time.now + 80;
     }
 
-     if (cursors.left.isDown) {
+  if (cursors.left.isDown)
+    {
       bullet.body.velocity.x = -350;
-
     }
-    if(cursors.up.isDown){
+    if(cursors.up.isDown)
+    {
       bullet.body.velocity.y = -350;
     }
-    if(cursors.down.isDown){
+    if(cursors.down.isDown)
+    {
       bullet.body.velocity.y = 350;
     }
   }
-
-
-
-
 
 }
 
