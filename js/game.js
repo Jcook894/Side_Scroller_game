@@ -69,10 +69,9 @@ function start(){
            scoreTxt.text = "score:" + score;
 
            if(aliens.countLiving() === 0){
-             player.kill();
              winTxt.visible = true;
              console.log("You win!");
-             game.input.onTap.addOnce(restart, this);
+             game.input.onTap.addOnce(nextRound, this);
 
 
            }
@@ -110,18 +109,25 @@ function start(){
              }
          }
 
+         function nextRound(){
+           aliens.callAll('kill');
+           gems.callAll('kill');
+           winTxt.visible = false;
+           gemFall();
+           startTimer();
+         }
+
          // Resets the canvas when player dies.
          function restart(){
-
-               aliens.callAll('kill');
-               lives.callAll('revive');
-               gems.callAll('kill');
-               player.revive();
-               deadTxt.visible = false;
-               score = 0;
-               winTxt.visible = false;
-               gemFall();
-               startTimer();
+            game.world.setBounds(0, 0, 1900, 605);
+            aliens.callAll('kill');
+            lives.callAll('revive');
+            gems.callAll('kill');
+            player.revive();
+            deadTxt.visible = false;
+            score = 0;
+            gemFall();
+            startTimer();
 
          }
 
