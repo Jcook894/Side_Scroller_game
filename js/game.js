@@ -8,10 +8,9 @@ var lives;
 var livesTxt;
 
 var score = 0;
+
 var scoreTxt;
 var winTxt;
-
-
 var deadTxt;
 
 var cursors;
@@ -21,12 +20,13 @@ var fireButton;
 
 var aliens;
 
+//Starts the the createAliens and startTimer function.
 function start(){
     createAliens();
     startTimer();
   }
 
-  //Creates a group of 35 aliens.
+//Creates a group of 35 aliens.
   function createAliens(){
        aliens = game.add.group();
        aliens.enableBody = true;
@@ -36,7 +36,7 @@ function start(){
   function startTimer(){
        game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
   }
-  //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
+//ressurects the alien from the group and adds it to the group, and gives it movement & physics.
   function resurrect() {
          var ufos = aliens.getFirstDead();
 
@@ -50,10 +50,10 @@ function start(){
            ufos.frame = game.rnd.integerInRange(0,36);
          }
        }
-       // Player and heart collision.
+// Player and heart collision.
            function collectGems (player, gems) {
 
-       // Removes the heart from the screen and updates score.
+// Removes the heart from the screen and updates score.
            gems.kill();
            score += 100;
 
@@ -61,7 +61,7 @@ function start(){
 
          }
 
-       //Bullet and enemy collision handler.
+//Bullet and enemy collision handler.
          function bulletCollision(bullet, alien){
            bullet.kill();
            alien.kill();
@@ -78,9 +78,9 @@ function start(){
 
          }
 
-       //Enemy and player collision.
+//Enemy and player collision.
          function enemyCollision(player, bullet){
-       //Gets the first heart in the group.
+//Gets the first heart in the group.
            live = lives.getFirstAlive();
            score -= 500;
 
@@ -89,7 +89,7 @@ function start(){
              player.reset(32, game.world.height -175);
            }
 
-       //If lives are gone, kill player and display text!
+ //If lives are gone, kill player and display text!
            if(lives.countLiving() === 0){
              player.kill();
              console.log("dead");
@@ -99,25 +99,27 @@ function start(){
            }
          }
 
+//loops the hearts and appends them to the page, with a space of 70px between each other.
          function gemFall(){
-         //loops the hearts and appends them to the page, with a space of 70px between each other.
              for(var i = 0; i < 20; i++){
                var gem = gems.create(i * 500, 10, 'gems');
 
-         //Makes the hearts float down the canvas.
+ //Makes the hearts float down the canvas.
                gem.body.gravity.y = 100;
              }
          }
 
+//Starts the next round of aliens.
          function nextRound(){
            aliens.callAll('kill');
            gems.callAll('kill');
            winTxt.visible = false;
            gemFall();
            startTimer();
+           score += 500;
          }
 
-         // Resets the canvas when player dies.
+// Resets the canvas when player dies.
          function restart(){
             game.world.setBounds(0, 0, 1900, 605);
             aliens.callAll('kill');
@@ -236,7 +238,7 @@ var gameState = {
 
 //When player kills all aliens on canvas, you win!
 
-    winTxt = game.add.text(175, 250, "You Win!!!! Click here to play again!");
+    winTxt = game.add.text(80, 250, "You Win the round!!!! Click here to play the next one!");
     winTxt.visible = false;
     winTxt.fixedToCamera = true;
 
