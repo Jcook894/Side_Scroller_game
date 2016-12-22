@@ -12,6 +12,7 @@ var score = 0;
 var scoreTxt;
 var winTxt;
 var deadTxt;
+var roundTxt;
 
 var cursors;
 var bullets;
@@ -188,7 +189,7 @@ var gameState = {
 
 //Adds a group of lives to the screen.
     lives = game.add.group();
-    livesTxt = game.add.text(game.world.width - 100, 10, "Lives: " );
+    livesTxt = game.add.text(game.world.width - 100, 10, "Lives: ",{fontSize: '32px', fill: '#000'} );
     livesTxt.fixedToCamera = true;
 
 //loops through the lives group and appends the hearts to corner of the screen.
@@ -241,6 +242,13 @@ var gameState = {
     winTxt = game.add.text(80, 250, "You Win the round!!!! Click here to play the next one!");
     winTxt.visible = false;
     winTxt.fixedToCamera = true;
+
+//Text telling you what round you are on.
+
+  roundTxt = game.add.text(350, 16, "Round: 0",{fontSize: '32px', fill: '#000'});
+  roundTxt.visible = true;
+  roundTxt.fixedToCamera = true;
+
 
 
     start();
