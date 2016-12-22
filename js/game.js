@@ -8,6 +8,7 @@ var lives;
 var livesTxt;
 
 var score = 0;
+var round = 0;
 
 var scoreTxt;
 var winTxt;
@@ -118,6 +119,8 @@ function start(){
            gemFall();
            startTimer();
            score += 500;
+           round += 1;
+           roundTxt.text = "Round:" + round;
          }
 
 // Resets the canvas when player dies.
@@ -129,6 +132,7 @@ function start(){
             player.revive();
             deadTxt.visible = false;
             score = 0;
+            round = 0;
             gemFall();
             startTimer();
 
