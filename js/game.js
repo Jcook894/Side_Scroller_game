@@ -59,7 +59,7 @@ function start(){
            gems.kill();
            score += 100;
 
-           scoreTxt.text = "score:" + score;
+           scoreTxt.text = "Score: " + score;
 
          }
 
@@ -68,7 +68,7 @@ function start(){
            bullet.kill();
            alien.kill();
            score += 200;
-           scoreTxt.text = "score:" + score;
+           scoreTxt.text = "Score: " + score;
 
            if(aliens.countLiving() === 0){
              winTxt.visible = true;
@@ -85,6 +85,7 @@ function start(){
 //Gets the first heart in the group.
            live = lives.getFirstAlive();
            score -= 500;
+           scoreTxt.text = "Score: " + score ;
 
            if(live){
              live.kill();
@@ -120,6 +121,7 @@ function start(){
            startTimer();
            score += 500;
            round += 1;
+           scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
          }
 
@@ -131,8 +133,8 @@ function start(){
             gems.callAll('kill');
             player.revive();
             deadTxt.visible = false;
-            score = 0;
-            round = 0;
+            scoreTxt.text = "Score: " + 0;
+            roundTxt.text = "Round: " + 0;
             gemFall();
             startTimer();
 
@@ -233,7 +235,7 @@ var gameState = {
 
 
 // Adds score text to the canvas.
-    scoreTxt = game.add.text(16,16, "score: 0",{fontSize: '32px', fill: '#000'});
+    scoreTxt = game.add.text(16,16, "Score: 0",{fontSize: '32px', fill: '#000'});
     scoreTxt.fixedToCamera = true;
 
 //when player dies, click screen to reset.
