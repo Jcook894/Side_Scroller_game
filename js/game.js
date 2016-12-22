@@ -52,13 +52,11 @@ function start(){
            ufos.frame = game.rnd.integerInRange(0,36);
          }
        }
-// Player and heart collision.
+// Player and gem collision.
            function collectGems (player, gems) {
-
 // Removes the heart from the screen and updates score.
            gems.kill();
            score += 100;
-
            scoreTxt.text = "Score: " + score;
 
          }
@@ -74,7 +72,6 @@ function start(){
              winTxt.visible = true;
              console.log("You win!");
              game.input.onTap.addOnce(nextRound, this);
-
 
            }
 
@@ -199,7 +196,7 @@ var gameState = {
     livesTxt.fixedToCamera = true;
 
 //loops through the lives group and appends the hearts to corner of the screen.
-    for(var i = 0; i < 3; i++){
+    for(var i = 0; i < 4; i++){
       var heart = lives.create(game.world.width - 150 + (30 * i), 60, "heart");
       heart.fixedToCamera = true;
 
