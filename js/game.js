@@ -131,6 +131,7 @@ function start(){
             player.revive();
             deadTxt.visible = false;
             round = 0;
+            score = 0;
             scoreTxt.text = "Score: " + 0;
             roundTxt.text = "Round: " + 0;
             gemFall();
