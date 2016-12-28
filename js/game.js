@@ -147,6 +147,7 @@ function start(){
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
+    game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 40 , 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
@@ -154,8 +155,8 @@ var gameState = {
     game.load.image('platform','assets/platform.png');
     game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
-    game.load.image('Mac-left', 'assets/Mac_left.png');
-    game.load.image('Mac', 'assets/Mac.png');
+  //  game.load.image('Mac', 'assets/Mac.png');
+
 
   },
   create: function(){
@@ -185,6 +186,11 @@ var gameState = {
     player = game.add.sprite(32, game.world.height -175, "Mac");
 
     game.physics.arcade.enable(player);
+
+    player.animations.add('left',[0,1,2,3]);
+    player.animations.add('right',[7,8,9,10]);
+    player.animations.add('stillLeft'[4]);
+    player.animations.add('stillRight'[5]);
 
 // Gives the sprite physics and weight when the player jumps.
     player.body.bounce.y = 0.2;
@@ -293,7 +299,7 @@ var gameState = {
       fireGun();
     }
 
-
+  player.animations.play('right', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
