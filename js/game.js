@@ -147,7 +147,7 @@ function start(){
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
-    game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 40 , 60);
+    game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 46 , 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
@@ -299,7 +299,7 @@ var gameState = {
       fireGun();
     }
 
-  player.animations.play('right', 10, true);
+  player.animations.play('left', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
