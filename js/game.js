@@ -6,6 +6,7 @@ var player;
 var hearts;
 var lives;
 var livesTxt;
+var facing = 'right';
 
 var score = 0;
 var round = 0;
@@ -187,6 +188,7 @@ var gameState = {
 
     game.physics.arcade.enable(player);
 
+// Adds the animations to the right frames.
     player.animations.add('left',[0,1,2,3]);
     player.animations.add('right',[7,8,9,10]);
     player.animations.add('stillLeft'[4]);
@@ -284,11 +286,19 @@ var gameState = {
     if(cursors.left.isDown){
       player.body.velocity.x = -150;
 
+      if(facing != 'left'){
+        player.animations.play('left', 10,true);
+        facing = 'left';
+      }
     }
 
   else  if(cursors.right.isDown){
       player.body.velocity.x = 150;
 
+        if(facing != 'right'){
+          player.animations.play('right', 10, true);
+          facing = 'right';
+        }
     }
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
@@ -299,7 +309,7 @@ var gameState = {
       fireGun();
     }
 
-  player.animations.play('left', 10, true);
+  //player.animations.play('right', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
