@@ -6,7 +6,7 @@ var player;
 var hearts;
 var lives;
 var livesTxt;
-var facing = 'right';
+var facing = 'left';
 
 var score = 0;
 var round = 0;
@@ -283,23 +283,46 @@ var gameState = {
 
     player.body.velocity.x = 0;
 
-    if(cursors.left.isDown){
-      player.body.velocity.x = -150;
+    if(cursors.right.isDown){
+      player.body.velocity.x = 150;
 
-      if(facing != 'left'){
-        player.animations.play('left', 10,true);
-        facing = 'left';
+      if(facing != 'right'){
+        player.animations.play('right', 10,true);
+        facing = 'right';
       }
     }
 
-  else  if(cursors.right.isDown){
-      player.body.velocity.x = 150;
+else  if(cursors.left.isDown){
+      player.body.velocity.x = -150;
 
-        if(facing != 'right'){
-          player.animations.play('right', 10, true);
-          facing = 'right';
+        if(facing != 'left'){
+          player.animations.play('left', 10, true);
+          facing = 'left';
         }
     }
+else
+  {
+    if(facing != 'idle')
+    {
+      player.animations.stop();
+
+      if(facing == 'left')
+      {
+        player.frame = 4;
+      }
+      if(facing == 'right'){
+        player.frame = 5;
+      }
+      else {
+
+          player.frame = 4;
+
+      }
+      facing = 'idle';
+    }
+  }
+
+
 
     if(cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
