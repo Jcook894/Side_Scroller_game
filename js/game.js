@@ -56,8 +56,12 @@ function start(){
            function collectGems (player, gems) {
 // Removes the heart from the screen and updates score.
            gems.kill();
+           live = lives.getFirstDead();
+           if(live){
+             live.reset();
+           }
            score += 100;
-           scoreTxt.text = "Score: " + score;
+           livesTxt.text = "Lives: " + live;
 
          }
 
@@ -130,9 +134,8 @@ function start(){
             gems.callAll('kill');
             player.revive();
             deadTxt.visible = false;
-            round = 0;
             score = 0;
-            scoreTxt.text = "Score: " + 0;
+            scoreTxt.text = "Score: " + score;
             roundTxt.text = "Round: " + 0;
             gemFall();
             startTimer();
