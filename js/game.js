@@ -6,7 +6,7 @@ var player;
 var hearts;
 var lives;
 var livesTxt;
-var facing = 'left';
+var facing = 'right';
 
 var score = 0;
 var round = 0;
@@ -136,8 +136,9 @@ function start(){
             player.revive();
             deadTxt.visible = false;
             score = 0;
+            round = 0;
             scoreTxt.text = "Score: " + score;
-            roundTxt.text = "Round: " + 0;
+            roundTxt.text = "Round: " + round;
             gemFall();
             startTimer();
 
@@ -320,6 +321,7 @@ else
       }
       facing = 'idle';
     }
+
   }
 
 
