@@ -73,12 +73,12 @@ function start(){
            score += 200;
            scoreTxt.text = "Score: " + score;
 
-           if(aliens.countLiving() === 0){
-             winTxt.visible = true;
-             console.log("You win!");
-             game.input.onTap.addOnce(nextRound, this);
+             if(aliens.countLiving() === 0){
+               winTxt.visible = true;
+               console.log("You win!");
+               game.input.onTap.addOnce(nextRound, this);
 
-           }
+             }
 
          }
 
@@ -223,42 +223,39 @@ var gameState = {
 
 
 //Puts bullets into a group and gives them physics.
-    bullets = game.add.group();
-    bullets.enableBody = true;
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
-    bullets.createMultiple(50,'bullets');
-    bullets.setAll('anchor.x', -2);
-    bullets.setAll('anchor.y', -3);
-    bullets.setAll('outOfBoundsKill', true);
-    bullets.setAll('checkWorldBounds', true);
+  bullets = game.add.group();
+  game.physics.enable(bullets, Phaser.Physics.ARCADE);
+  /*bullets.enableBody = true;
+  bullets.physicsBodyType = Phaser.Physics.ARCADE;
+;*/
 
-    player.anchor.x = 0.5;
+  player.anchor.x = 0.5;
 
 
 
-    fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
+  fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
 //sets the canvas bounds to 1920 x 1920.
-    game.world.setBounds(0, 0, 1900, 605);
+  game.world.setBounds(0, 0, 1900, 605);
 
 //Camera that follows the player across the canvas.
-    game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+  game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
 
 
 // Adds score text to the canvas.
-    scoreTxt = game.add.text(16,16, "Score: 0",{fontSize: '32px', fill: '#000'});
-    scoreTxt.fixedToCamera = true;
+  scoreTxt = game.add.text(16,16, "Score: 0",{fontSize: '32px', fill: '#000'});
+  scoreTxt.fixedToCamera = true;
 
 //when player dies, click screen to reset.
-    deadTxt = game.add.text(250, 250, "You died! click here to reset");
-    deadTxt.visible = false;
-    deadTxt.fixedToCamera = true;
+  deadTxt = game.add.text(250, 250, "You died! click here to reset");
+  deadTxt.visible = false;
+  deadTxt.fixedToCamera = true;
 
 //When player kills all aliens on canvas, you win!
 
-    winTxt = game.add.text(80, 250, "You Win the round!!!! Click here to play the next one!");
-    winTxt.visible = false;
-    winTxt.fixedToCamera = true;
+  winTxt = game.add.text(80, 250, "You Win the round!!!! Click here to play the next one!");
+  winTxt.visible = false;
+  winTxt.fixedToCamera = true;
 
 //Text telling you what round you are on.
 
@@ -285,39 +282,35 @@ var gameState = {
     player.body.velocity.x = 0;
 
     if(cursors.right.isDown){
+      player.scale.x = 1;
       player.body.velocity.x = 150;
+      player.animations.play('right', 10,true);
+      facing = 'right';
 
-      if(facing != 'right'){
-        player.animations.play('right', 10,true);
-        facing = 'right';
-      }
+
+    }
+    else if(cursors.left.isDown){
+            player.body.velocity.x = -150;
+            player.scale.x = 1;
+            player.animations.play('left', 10, true);
+            facing = 'left';
     }
 
-else  if(cursors.left.isDown){
-      player.body.velocity.x = -150;
-
-        if(facing != 'left'){
-          player.animations.play('left', 10, true);
-          facing = 'left';
-        }
-    }
 else
   {
     if(facing != 'idle')
     {
       player.animations.stop();
 
-      if(facing == 'left')
+    if (facing == 'left')
       {
         player.frame = 4;
       }
-      if(facing == 'right'){
+    if (facing == 'right'){
         player.frame = 5;
       }
-      else {
-
+    else {
           player.frame = 4;
-
       }
       facing = 'idle';
     }
@@ -326,11 +319,11 @@ else
 
 
 
-    if(cursors.up.isDown && player.body.touching.down && onPlatform ){
+  if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
     }
 
-    if(fireButton.isDown){
+  if (fireButton.isDown){
       fireGun();
     }
 
@@ -345,35 +338,53 @@ game.physics.arcade.collide(gems, platforms);
 game.physics.arcade.overlap(player, gems, collectGems, null, this);
 
 function fireGun(){
-  if(game.time.now > bulletTime)
+  if (game.time.now > bulletTime)
     {
-      bullet = bullets.getFirstExists(false);
+      bulletTime = game.time.now + 80;
+      if(facing == 'right'){
+        bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
+      }
+      else{
+          bullet = bullets.create(player.body.x + player.body.width / 2 - 20, player.body.y + player.body.height / 2 - 4, 'bullets');
+      }
+      game.physics.enable(bullet, Phaser.Physics.ARCADE);
+      bullet.anchor.setTo(0.5, 0.5);
+      bullet.body.velocity.y = 0;
+
+      if(facing == "right"){
+        bullet.body.velocity.x = 400;
+      }
+      else{
+        bullet.body.velocity.x = -400;
+      }
+
     }
 
-  if(bullet)
+/*  if (bullet)
     {
       bullet.reset(player.x,player.y);
       bullet.body.velocity.x = 350;
-      bulletTime = game.time.now + 80;
-    }
+
+    }*/
+
+
+
 
   if (cursors.left.isDown)
     {
       bullet.body.velocity.x = -350;
     }
-    if(cursors.up.isDown)
+  if (cursors.up.isDown)
     {
       bullet.body.velocity.y = -350;
     }
-    if(cursors.down.isDown)
+  if (cursors.down.isDown)
     {
       bullet.body.velocity.y = 350;
     }
   }
 
 }
-
-
 
 
 };
