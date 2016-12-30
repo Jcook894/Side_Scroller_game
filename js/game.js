@@ -304,10 +304,12 @@ else
 
     if (facing == 'left')
       {
+
         player.frame = 4;
       }
     if (facing == 'right'){
         player.frame = 5;
+
       }
     else {
           player.frame = 4;
@@ -354,9 +356,24 @@ function fireGun(){
       if(facing == "right"){
         bullet.body.velocity.x = 400;
       }
-      else{
+      if(facing == 'left'){
         bullet.body.velocity.x = -400;
+
       }
+
+
+        if(player.frame == 5){
+          bullet.body.velocity.x = 400;
+          facing = 'right';
+
+        }
+
+        else if(player.frame == 4){
+          bullet.body.velocity.x = -400;
+          facing = 'left';
+        }
+
+
 
     }
 
@@ -370,7 +387,7 @@ function fireGun(){
 
 
 
-  if (cursors.left.isDown)
+  /*if (cursors.left.isDown)
     {
       bullet.body.velocity.x = -350;
     }
@@ -381,7 +398,7 @@ function fireGun(){
   if (cursors.down.isDown)
     {
       bullet.body.velocity.y = 350;
-    }
+    }*/
   }
 
 }
