@@ -346,59 +346,40 @@ function fireGun(){
       if(facing == 'right'){
         bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
-      else{
+
+      else {
           bullet = bullets.create(player.body.x + player.body.width / 2 - 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
-      game.physics.enable(bullet, Phaser.Physics.ARCADE);
-      bullet.anchor.setTo(0.5, 0.5);
-      bullet.body.velocity.y = 0;
+
+        game.physics.enable(bullet, Phaser.Physics.ARCADE);
+        bullet.anchor.setTo(0.5, 0);
+        bullet.body.velocity.y = 0;
 
       if(facing == "right"){
+        bullet.anchor.setTo(0.5, 0);
         bullet.body.velocity.x = 400;
       }
       if(facing == 'left'){
+        bullet.anchor.setTo(0,0);
         bullet.body.velocity.x = -400;
 
       }
 
-
         if(player.frame == 5){
-          bullet.body.velocity.x = 400;
+          bullet.anchor.setTo(-4,0);
+          bullet.body.velocity.x = 350;
           facing = 'right';
-
         }
 
         else if(player.frame == 4){
-          bullet.body.velocity.x = -400;
+          bullet.anchor.setTo(0, 0);
+          bullet.body.velocity.x = -350;
           facing = 'left';
         }
 
-
-
     }
 
-/*  if (bullet)
-    {
-      bullet.reset(player.x,player.y);
-      bullet.body.velocity.x = 350;
 
-    }*/
-
-
-
-
-  /*if (cursors.left.isDown)
-    {
-      bullet.body.velocity.x = -350;
-    }
-  if (cursors.up.isDown)
-    {
-      bullet.body.velocity.y = -350;
-    }
-  if (cursors.down.isDown)
-    {
-      bullet.body.velocity.y = 350;
-    }*/
   }
 
 }
