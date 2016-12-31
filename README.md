@@ -6,9 +6,9 @@
 ### How to run:
 
 * To run the game, git clone it to a directory and run a local server from your command line.
-
+```python
  python -m SimpleHTTPServer 8080
-
+```
 ### How to play:
 
 * To move the player, use the directional pads, up is to jump.
