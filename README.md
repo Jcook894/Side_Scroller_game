@@ -3,6 +3,11 @@
 
 ## An arcade like side scrolling shooter I'm programming using phaser framework.
 
+### How to run:
+
+* To run the game, git clone it to a directory and run a local server from your command line.
+
+ python -m SimpleHTTPServer 8080
 
 ### How to play:
 

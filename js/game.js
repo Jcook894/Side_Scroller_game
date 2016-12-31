@@ -342,7 +342,7 @@ game.physics.arcade.overlap(player, gems, collectGems, null, this);
 function fireGun(){
   if (game.time.now > bulletTime)
     {
-      bulletTime = game.time.now + 80;
+      bulletTime = game.time.now + 100;
       if(facing == 'right'){
         bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
@@ -357,11 +357,11 @@ function fireGun(){
 
       if(facing == "right"){
         bullet.anchor.setTo(0.5, 0);
-        bullet.body.velocity.x = 400;
+        bullet.body.velocity.x = 350;
       }
       if(facing == 'left'){
         bullet.anchor.setTo(0,0);
-        bullet.body.velocity.x = -400;
+        bullet.body.velocity.x = -350;
 
       }
 
