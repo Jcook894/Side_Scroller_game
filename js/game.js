@@ -1,27 +1,35 @@
+'use strict';
 // Global Variables.
 var game = new Phaser.Game(800, 600, Phaser.CANVAS,'gameDiv');
 
-var platforms;
+
 var player;
-var hearts;
+
 var lives;
 var livesTxt;
+var live;
+
 var facing = 'right';
+var platforms;
+var hearts;
+var bullets;
+
+var aliens;
+var ufos;
+var gems;
 
 var score = 0;
 var round = 0;
-
 var scoreTxt;
 var winTxt;
 var deadTxt;
 var roundTxt;
 
 var cursors;
-var bullets;
+
 var bulletTime = 0;
 var fireButton;
 
-var aliens;
 
 //Starts the the createAliens and startTimer function.
 function start(){
@@ -37,17 +45,17 @@ function start(){
 
 }
   function startTimer(){
-       game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
+       game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
   }
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
   function resurrect() {
-         var ufos = aliens.getFirstDead();
-
+          ufos = aliens.getFirstDead();
          if(ufos){
            ufos.reset(game.world.randomX       ,game.world.randomY);
 
            ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
-           ufos.animations.add('hover',[0],true);
+           ufos.animations.add('hover',[0]);
+           ufos.animations.play('hover');
 
            ufos.body.bounce.setTo(0.5, 0.5);
            ufos.body.collideWorldBounds = true;
@@ -55,7 +63,7 @@ function start(){
          }
        }
 // Player and gem collision.
-           function collectGems (player, gems) {
+       function collectGems (player, gems) {
 // Removes the heart from the screen and updates score.
            gems.kill();
            live = lives.getFirstDead();
@@ -75,8 +83,7 @@ function start(){
            scoreTxt.text = "Score: " + score;
              if(aliens.countLiving() === 0){
                winTxt.visible = true;
-               console.log("You win!");
-               game.input.onTap.addOnce(nextRound, this);
+               game.input.onTap.addOnce(nextRound);
 
              }
 
@@ -97,10 +104,9 @@ function start(){
  //If lives are gone, kill player and display text!
            if(lives.countLiving() === 0){
              player.kill();
-             console.log("dead");
              deadTxt.visible = true;
 
-             game.input.onTap.addOnce(restart, this);
+             game.input.onTap.addOnce(restart);
            }
          }
 
@@ -150,7 +156,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
-    game.load.spritesheet('aliens', 'assets/Invaders.png', 53, 55);
+    game.load.spritesheet('aliens', 'assets/Invaders.png', 55, 55);
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
@@ -338,9 +344,10 @@ game.physics.arcade.overlap(player, gems, collectGems, null, this);
 function fireGun(){
   if (game.time.now > bulletTime)
     {
+      var bullet;
       bulletTime = game.time.now + 100;
       if(facing == 'right'){
-          bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
+           bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
 
       else {
