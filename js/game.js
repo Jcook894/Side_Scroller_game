@@ -47,6 +47,7 @@ function start(){
            ufos.reset(game.world.randomX       ,game.world.randomY);
 
            ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+           ufos.animations.add('hover',[0],true);
 
            ufos.body.bounce.setTo(0.5, 0.5);
            ufos.body.collideWorldBounds = true;
@@ -149,7 +150,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
-    game.load.spritesheet('aliens', 'assets/Invaders.png', 55, 55);
+    game.load.spritesheet('aliens', 'assets/Invaders.png', 53, 55);
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
@@ -372,7 +373,7 @@ function fireGun(){
           facing = 'left';
         }
       if(cursors.up.isDown){
-        bullet.body.velocity.y = -350
+        bullet.body.velocity.y = -350;
       }
 
       if(cursors.down.isDown){
@@ -381,8 +382,8 @@ function fireGun(){
 
     }
 
-
   }
+
 
 }
 
