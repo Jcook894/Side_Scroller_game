@@ -1,4 +1,3 @@
-'use strict';
 // Global Variables.
 var game = new Phaser.Game(800, 600, Phaser.CANVAS,'gameDiv');
 
@@ -35,13 +34,17 @@ var fireButton;
 function start(){
     createAliens();
     startTimer();
-  }
 
+  }
 //Creates a group of 35 aliens.
   function createAliens(){
        aliens = game.add.group();
        aliens.enableBody = true;
        aliens.createMultiple(35, 'aliens', 0, false);
+
+
+
+
 
 }
   function startTimer(){
@@ -50,13 +53,13 @@ function start(){
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
   function resurrect() {
           ufos = aliens.getFirstDead();
+          ufos.animations.add('hover',[0]);
+          ufos.animations.add('boom', [1]);
          if(ufos){
            ufos.reset(game.world.randomX       ,game.world.randomY);
 
            ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
-           ufos.animations.add('hover',[0]);
-           ufos.animations.play('hover');
-
+           ufos.animations.play('hover', 10, true);
            ufos.body.bounce.setTo(0.5, 0.5);
            ufos.body.collideWorldBounds = true;
            ufos.frame = game.rnd.integerInRange(0,36);
@@ -79,6 +82,7 @@ function start(){
          function bulletCollision(bullet, alien){
            bullet.kill();
            alien.kill();
+           ufos.animations.play('boom', 10, true);
            score += 200;
            scoreTxt.text = "Score: " + score;
              if(aliens.countLiving() === 0){
@@ -199,7 +203,6 @@ var gameState = {
     player.animations.add('left',[0,1,2,3]);
     player.animations.add('right',[7,8,9,10]);
 
-
 // Gives the sprite physics and weight when the player jumps.
     player.body.bounce.y = 0.2;
     player.body.gravity.y = 500;
@@ -264,18 +267,17 @@ var gameState = {
   roundTxt.visible = true;
   roundTxt.fixedToCamera = true;
 
+  start();
+  createAliens();
+  gemFall();
 
 
-    start();
-    createAliens();
-    gemFall();
 
   },
 
   update: function(){
 
 // Basically an event listener for the keys.
-
     cursors = game.input.keyboard.createCursorKeys();
 
     var onPlatform = game.physics.arcade.collide(player,platforms);
