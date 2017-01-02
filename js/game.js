@@ -34,8 +34,8 @@ function start(){
        aliens = game.add.group();
        aliens.enableBody = true;
        aliens.createMultiple(35, 'aliens', 0, false);
-  }
 
+}
   function startTimer(){
        game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect, this);
   }
@@ -72,7 +72,6 @@ function start(){
            alien.kill();
            score += 200;
            scoreTxt.text = "Score: " + score;
-
              if(aliens.countLiving() === 0){
                winTxt.visible = true;
                console.log("You win!");
@@ -150,7 +149,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
-    game.load.image('aliens', 'assets/Invaders.png');
+    game.load.spritesheet('aliens', 'assets/Invaders.png', 55, 55);
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
@@ -192,8 +191,7 @@ var gameState = {
 // Adds the animations to the right frames.
     player.animations.add('left',[0,1,2,3]);
     player.animations.add('right',[7,8,9,10]);
-    player.animations.add('stillLeft'[4]);
-    player.animations.add('stillRight'[5]);
+
 
 // Gives the sprite physics and weight when the player jumps.
     player.body.bounce.y = 0.2;
@@ -225,12 +223,8 @@ var gameState = {
 //Puts bullets into a group and gives them physics.
   bullets = game.add.group();
   game.physics.enable(bullets, Phaser.Physics.ARCADE);
-  /*bullets.enableBody = true;
-  bullets.physicsBodyType = Phaser.Physics.ARCADE;
-;*/
 
   player.anchor.x = 0.5;
-
 
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
@@ -329,6 +323,7 @@ else
       fireGun();
     }
 
+
   //player.animations.play('right', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
@@ -344,16 +339,16 @@ function fireGun(){
     {
       bulletTime = game.time.now + 100;
       if(facing == 'right'){
-        bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
+          bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
 
       else {
           bullet = bullets.create(player.body.x + player.body.width / 2 - 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
 
-        game.physics.enable(bullet, Phaser.Physics.ARCADE);
-        bullet.anchor.setTo(0.5, 0);
-        bullet.body.velocity.y = 0;
+          game.physics.enable(bullet, Phaser.Physics.ARCADE);
+          bullet.anchor.setTo(0.5, 0);
+          bullet.body.velocity.y = 0;
 
       if(facing == "right"){
         bullet.anchor.setTo(0.5, 0);
@@ -365,17 +360,24 @@ function fireGun(){
 
       }
 
-        if(player.frame == 5){
+      if(player.frame == 5){
           bullet.anchor.setTo(-4,0);
           bullet.body.velocity.x = 350;
           facing = 'right';
         }
 
-        else if(player.frame == 4){
+      else if(player.frame == 4){
           bullet.anchor.setTo(0, 0);
           bullet.body.velocity.x = -350;
           facing = 'left';
         }
+      if(cursors.up.isDown){
+        bullet.body.velocity.y = -350
+      }
+
+      if(cursors.down.isDown){
+        bullet.body.velocity.y = 350;
+      }
 
     }
 
