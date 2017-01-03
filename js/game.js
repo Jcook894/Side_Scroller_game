@@ -54,10 +54,6 @@ function start(){
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
   function resurrect() {
           ufos = aliens.getFirstDead();
-//Puts the explosion sprite into a group.
-          kaboom = game.add.group();
-          kaboom.createMultiple(35,'BOOM');
-          ufos.animations.add('kaboom');
 
          if(ufos){
            ufos.reset(game.world.randomX       ,game.world.randomY);
@@ -84,11 +80,16 @@ function start(){
          function bulletCollision(bullet, alien){
            bullet.kill();
            alien.kill();
+ //Puts the explosion sprite into a group.
+           kaboom = game.add.group();
+           kaboom.createMultiple(35,'kaboom');
 //Adds the explosion animation when alien is shot.
            var explosion = kaboom.getFirstExists(false);
+           explosion.animations.add('kaboom', [0,1]);
+           explosion.animations.play('kaboom', 2, false, true);
            explosion.reset(alien.body.x, alien.body.y);
-           explosion.play('BOOM', 10, false, true);
-           
+
+
            score += 200;
            scoreTxt.text = "Score: " + score;
              if(aliens.countLiving() === 0){
@@ -96,7 +97,6 @@ function start(){
                game.input.onTap.addOnce(nextRound);
 
              }
-
          }
 
 //Enemy and player collision.
@@ -114,6 +114,7 @@ function start(){
  //If lives are gone, kill player and display text!
            if(lives.countLiving() === 0){
              player.kill();
+             bullet.kill();
              deadTxt.visible = true;
 
              game.input.onTap.addOnce(restart);
@@ -167,7 +168,7 @@ var gameState = {
   preload: function(){
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
-    game.load.spritesheet('BOOM', 'assets/BOOM.png', 50, 45);
+    game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
     game.load.image('bullets', 'assets/bullet.png');
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
