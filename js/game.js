@@ -95,7 +95,7 @@ function start(){
              if(aliens.countLiving() === 0){
                winTxt.visible = true;
                game.input.onTap.addOnce(nextRound);
-
+               explosion.kill();
              }
          }
 
