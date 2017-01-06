@@ -13,6 +13,7 @@ var platforms;
 var hearts;
 var bullets;
 var kaboom;
+var kaboomSnd;
 
 var aliens;
 var ufos;
@@ -29,6 +30,7 @@ var cursors;
 
 var bulletTime = 0;
 var fireButton;
+var gunSound;
 
 
 //Starts the the createAliens and startTimer function.
@@ -80,6 +82,7 @@ function start(){
  //Puts the explosion sprite into a group.
            kaboom = game.add.group();
            kaboom.createMultiple(35,'kaboom');
+
 //Adds the explosion animation when alien is shot.
            var explosion = kaboom.getFirstExists(false);
            explosion.animations.add('kaboom', [0,1]);
@@ -102,6 +105,7 @@ function start(){
            live = lives.getFirstAlive();
            score -= 500;
            scoreTxt.text = "Score: " + score ;
+
 
            if(live){
              live.kill();
@@ -167,11 +171,14 @@ var gameState = {
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
     game.load.image('bullets', 'assets/bullet.png');
+    game.load.audio('shot',['SoundEffects/gunShot.ogg']);
+    game.load.audio('boomSound',['SoundEffects/explosion.wav']);
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('platform','assets/platform.png');
     game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
+
   //  game.load.image('Mac', 'assets/Mac.png');
 
 
@@ -243,6 +250,8 @@ var gameState = {
 
   player.anchor.x = 0.5;
 
+
+  gunSound = game.add.audio('shot');
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
@@ -337,7 +346,7 @@ else
 
   if (fireButton.isDown){
       fireGun();
-    }
+      gunSound.play();    }
 
 
   //player.animations.play('right', 10, true);
@@ -354,6 +363,7 @@ function fireGun(){
   if (game.time.now > bulletTime)
     {
       var bullet;
+
       bulletTime = game.time.now + 100;
       if(facing == 'right'){
            bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
@@ -362,7 +372,7 @@ function fireGun(){
       else {
           bullet = bullets.create(player.body.x + player.body.width / 2 - 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
-
+          bullets.createMultiple(50,'bullets');
           game.physics.enable(bullet, Phaser.Physics.ARCADE);
           bullet.anchor.setTo(0.5, 0);
           bullet.body.velocity.y = 0;
