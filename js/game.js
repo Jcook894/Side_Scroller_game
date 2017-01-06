@@ -246,10 +246,6 @@ var gameState = {
 
     }
 
-
-
-
-
 //Puts bullets into a group and gives them physics.
   bullets = game.add.group();
   game.physics.enable(bullets, Phaser.Physics.ARCADE);
@@ -348,6 +344,7 @@ else
 
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
+      jumpSnd.play();
     }
 
   if (fireButton.isDown){
