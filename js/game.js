@@ -43,11 +43,8 @@ function start(){
        aliens.enableBody = true;
        aliens.createMultiple(35, 'aliens', 0, false);
 
-
-
-
-
 }
+
   function startTimer(){
        game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
   }
@@ -95,7 +92,7 @@ function start(){
              if(aliens.countLiving() === 0){
                winTxt.visible = true;
                game.input.onTap.addOnce(nextRound);
-               explosion.kill();
+               explosion.reset();
              }
          }
 
