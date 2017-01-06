@@ -82,6 +82,8 @@ function start(){
  //Puts the explosion sprite into a group.
            kaboom = game.add.group();
            kaboom.createMultiple(35,'kaboom');
+           kaboomSnd = game.add.audio('boomSound');
+           kaboomSnd.play();
 
 //Adds the explosion animation when alien is shot.
            var explosion = kaboom.getFirstExists(false);
