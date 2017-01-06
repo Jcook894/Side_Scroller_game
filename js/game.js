@@ -31,6 +31,7 @@ var cursors;
 var bulletTime = 0;
 var fireButton;
 var gunSound;
+var jumpSnd;
 
 
 //Starts the the createAliens and startTimer function.
@@ -175,6 +176,7 @@ var gameState = {
     game.load.image('bullets', 'assets/bullet.png');
     game.load.audio('shot',['SoundEffects/gunShot.ogg']);
     game.load.audio('boomSound',['SoundEffects/explosion.wav']);
+    game.load.audio('jumpSound',['SoundEffects/jump_07.wav']);
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('platform','assets/platform.png');
@@ -212,6 +214,8 @@ var gameState = {
     player = game.add.sprite(32, game.world.height -175, "Mac");
 
     game.physics.arcade.enable(player);
+    jumpSnd = game.add.audio('jumpSound');
+
 
 // Adds the animations to the right frames.
     player.animations.add('left',[0,1,2,3]);
