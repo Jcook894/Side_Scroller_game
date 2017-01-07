@@ -12,6 +12,7 @@ var facing = 'right';
 var platforms;
 var hearts;
 var bullets;
+
 var kaboom;
 var kaboomSnd;
 
@@ -30,6 +31,8 @@ var cursors;
 
 var bulletTime = 0;
 var fireButton;
+
+var landSnd;
 var gunSound;
 var jumpSnd;
 
@@ -101,6 +104,11 @@ function start(){
                explosion.reset();
              }
          }
+
+    function soundStopped(sound){
+
+
+    }
 
 //Enemy and player collision.
          function enemyCollision(player, bullet){
@@ -177,6 +185,7 @@ var gameState = {
     game.load.audio('shot',['SoundEffects/gunShot.ogg']);
     game.load.audio('boomSound',['SoundEffects/explosion.wav']);
     game.load.audio('jumpSound',['SoundEffects/jump_07.wav']);
+    game.load.audio('jumpLand',['SoundEffects/jumpLand.wav']);
     game.load.image('gems','assets/Gem.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('platform','assets/platform.png');
@@ -215,6 +224,9 @@ var gameState = {
 
     game.physics.arcade.enable(player);
     jumpSnd = game.add.audio('jumpSound');
+    landSnd = game.add.audio('jumpLand',true);
+    landSnd.onStop.add(soundStopped,this);
+
 
 
 // Adds the animations to the right frames.
@@ -345,7 +357,12 @@ else
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
       jumpSnd.play();
+
     }
+  if(player.body.touching.down && onPlatform){
+    landSnd.play();
+  }
+
 
   if (fireButton.isDown){
       fireGun();
