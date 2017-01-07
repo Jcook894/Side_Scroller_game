@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Jcook894/Side_Scroller_game/issues"
   },
-  "homepage": "https://github.com/Jcook894/Side_Scroller_game#readme"
+  "homepage": "https://github.com/Jcook894/Side_Scroller_game#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
 }
