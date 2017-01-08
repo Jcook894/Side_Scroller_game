@@ -266,6 +266,10 @@ var gameState = {
 
 
   gunSound = game.add.audio('shot');
+  if (fireButton.isDown){
+      fireGun();
+      gunSound.play('', 5,false);
+    }
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
@@ -364,9 +368,6 @@ else
   }
 
 
-  if (fireButton.isDown){
-      fireGun();
-      gunSound.play();    }
 
 
   //player.animations.play('right', 10, true);
