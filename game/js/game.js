@@ -235,6 +235,7 @@ var gameState = {
     game.physics.arcade.enable(player);
     jumpSnd = game.add.audio('jumpSound');
     landSnd = game.add.audio('jumpLand',true);
+    gunSound = game.add.audio('shot', true);
 
 
 // Adds the animations to the right frames.
@@ -269,7 +270,6 @@ var gameState = {
 //Puts bullets into a group and gives them physics.
   bullets = game.add.group();
   game.physics.enable(bullets, Phaser.Physics.ARCADE);
-
   player.anchor.x = 0.5;
 
   cursors = game.input.keyboard.createCursorKeys();
@@ -338,7 +338,7 @@ var gameState = {
             player.scale.x = 1;
             player.animations.play('left', 10, true);
             facing = 'left';
-          
+
     }
 
 else
@@ -364,10 +364,10 @@ else
 
   }
 
-  if (fireButton.isDown){
-      fireGun();
-
-    }
+fireButton.onDown.add(function (){
+  fireGun();
+  gunSound.play();
+});
 
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
@@ -392,12 +392,9 @@ function fireGun(){
   if (game.time.now > bulletTime)
     {
       var bullet;
-      gunSound = game.add.audio('shot',bulletTime);
-      if(bullets > 0){
-        gunSound.play('',10,true);
-      }
 
-      bulletTime = game.time.now + 800;
+
+      bulletTime = game.time.now + 150;
       if(facing == 'right'){
            bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
@@ -405,10 +402,11 @@ function fireGun(){
       else {
           bullet = bullets.create(player.body.x + player.body.width / 2 - 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
-          bullets.createMultiple(50,'bullets');
-          game.physics.enable(bullet, Phaser.Physics.ARCADE);
-          bullet.anchor.setTo(0.5, 0);
-          bullet.body.velocity.y = 0;
+
+        bullets.createMultiple(50,'bullets');
+        game.physics.enable(bullet, Phaser.Physics.ARCADE);
+        bullet.anchor.setTo(0.5, 0);
+        bullet.body.velocity.y = 0;
 
       if(facing == "right"){
         bullet.anchor.setTo(0.5, 0);
