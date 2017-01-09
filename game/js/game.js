@@ -28,14 +28,25 @@ var deadTxt;
 var roundTxt;
 
 var cursors;
+var executed;
 
 var bulletTime = 0;
+var timeDelay = 0;
 var fireButton;
 
 var landSnd;
 var gunSound;
 var jumpSnd;
 
+
+function collision(){
+
+  if(!executed){
+    console.log('fire');
+    landSnd.play();
+    executed = true;
+}
+}
 
 //Starts the the createAliens and startTimer function.
 function start(){
@@ -86,7 +97,7 @@ function start(){
  //Puts the explosion sprite into a group.
            kaboom = game.add.group();
            kaboom.createMultiple(35,'kaboom');
-           kaboomSnd = game.add.audio('boomSound');
+           kaboomSnd = game.add.audio('boomSound',true);
            kaboomSnd.play();
 
 //Adds the explosion animation when alien is shot.
@@ -104,11 +115,6 @@ function start(){
                explosion.reset();
              }
          }
-
-    function soundStopped(sound){
-
-
-    }
 
 //Enemy and player collision.
          function enemyCollision(player, bullet){
@@ -142,6 +148,10 @@ function start(){
                gem.body.gravity.y = 100;
              }
          }
+
+
+
+
 
 //Starts the next round of aliens.
          function nextRound(){
@@ -225,8 +235,6 @@ var gameState = {
     game.physics.arcade.enable(player);
     jumpSnd = game.add.audio('jumpSound');
     landSnd = game.add.audio('jumpLand',true);
-    landSnd.onStop.add(soundStopped,this);
-
 
 
 // Adds the animations to the right frames.
@@ -264,8 +272,7 @@ var gameState = {
 
   player.anchor.x = 0.5;
 
-
-  gunSound = game.add.audio('shot');
+  cursors = game.input.keyboard.createCursorKeys();
 
   fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
 
@@ -296,6 +303,9 @@ var gameState = {
   roundTxt = game.add.text(350, 16, "Round: 0",{fontSize: '32px', fill: '#000'});
   roundTxt.visible = true;
   roundTxt.fixedToCamera = true;
+  game.time.events.add(Phaser.Timer.SECOND * 1, stop );
+
+
 
   start();
   createAliens();
@@ -308,9 +318,9 @@ var gameState = {
   update: function(){
 
 // Basically an event listener for the keys.
-    cursors = game.input.keyboard.createCursorKeys();
 
-    var onPlatform = game.physics.arcade.collide(player,platforms);
+
+    var onPlatform = game.physics.arcade.collide(player,platforms, collision);
 
     player.body.velocity.x = 0;
 
@@ -352,21 +362,16 @@ else
 
   }
 
+  if (fireButton.isDown){
+      fireGun();
 
+    }
 
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
       jumpSnd.play();
 
     }
-  if(player.body.touching.down && onPlatform){
-    landSnd.play();
-  }
-
-
-  if (fireButton.isDown){
-      fireGun();
-      gunSound.play();    }
 
 
   //player.animations.play('right', 10, true);
@@ -379,12 +384,17 @@ game.physics.arcade.collide(aliens, platforms);
 game.physics.arcade.collide(gems, platforms);
 game.physics.arcade.overlap(player, gems, collectGems, null, this);
 
+
 function fireGun(){
   if (game.time.now > bulletTime)
     {
       var bullet;
+      gunSound = game.add.audio('shot',bulletTime);
+      if(bullets > 0){
+        gunSound.play('',10,true);
+      }
 
-      bulletTime = game.time.now + 100;
+      bulletTime = game.time.now + 800;
       if(facing == 'right'){
            bullet = bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullets');
       }
@@ -429,7 +439,6 @@ function fireGun(){
     }
 
   }
-
 
 }
 

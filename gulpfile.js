@@ -9,12 +9,13 @@ gulp.task('test', function(){
   console.log("This is a test task.");
 });
 
+//Live reload and local server.
 gulp.task('connect', function() {
     return connect.server({
         root: [outputDir],
         port: 8888, // optional
         livereload: false
     });
-});﻿
+});
 
 gulp.task('default', ['test', 'connect']);
