@@ -331,12 +331,14 @@ var gameState = {
       facing = 'right';
 
 
+
     }
     else if(cursors.left.isDown){
             player.body.velocity.x = -150;
             player.scale.x = 1;
             player.animations.play('left', 10, true);
             facing = 'left';
+          
     }
 
 else
@@ -370,6 +372,7 @@ else
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
       player.body.velocity.y = -400;
       jumpSnd.play();
+      executed = false;
 
     }
 
