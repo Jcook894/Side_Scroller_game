@@ -42,102 +42,106 @@ var jumpSnd;
 function collision(){
 
   if(!executed){
-    console.log('fire');
     landSnd.play();
     executed = true;
-}
+  }
+
 }
 
 //Starts the the createAliens and startTimer function.
 function start(){
-    createAliens();
-    startTimer();
 
-  }
+  createAliens();
+  startTimer();
+}
+
 //Creates a group of 35 aliens.
-  function createAliens(){
-       aliens = game.add.group();
-       aliens.enableBody = true;
-       aliens.createMultiple(35, 'aliens', 0, false);
+function createAliens(){
+
+   aliens = game.add.group();
+   aliens.enableBody = true;     aliens.createMultiple(35, 'aliens', 0, false);
 
 }
 
-  function startTimer(){
-       game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
-  }
+function startTimer(){
+
+    game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
+
+}
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
-  function resurrect() {
-          ufos = aliens.getFirstDead();
+function resurrect() {
+    ufos = aliens.getFirstDead();
 
-         if(ufos){
-           ufos.reset(game.world.randomX       ,game.world.randomY);
-           ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
-           ufos.body.bounce.setTo(0.5, 0.5);
-           ufos.body.collideWorldBounds = true;
-           ufos.frame = game.rnd.integerInRange(0,36);
-         }
-       }
+      if(ufos){
+         ufos.reset(game.world.randomX       ,game.world.randomY);
+         ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+         ufos.body.bounce.setTo(0.5, 0.5);           ufos.body.collideWorldBounds = true;
+         ufos.frame = game.rnd.integerInRange(0,36);
+      }
+}
+
 // Player and gem collision.
-       function collectGems (player, gems) {
+ function collectGems (player, gems) {
 // Removes the heart from the screen and updates score.
-           gems.kill();
-           live = lives.getFirstDead();
-           if(live){
-             live.reset();
-           }
-           score += 100;
-           livesTxt.text = "Lives: " + live;
+     gems.kill();
+     live = lives.getFirstDead();
 
+        if(live){
+          live.reset();
          }
+
+     score += 100;
+     livesTxt.text = "Lives: " + live;
+
+}
 
 //Bullet and enemy collision handler.
-         function bulletCollision(bullet, alien){
-           bullet.kill();
-           alien.kill();
+function bulletCollision(bullet, alien){
+     bullet.kill();
+     alien.kill();
  //Puts the explosion sprite into a group.
-           kaboom = game.add.group();
-           kaboom.createMultiple(35,'kaboom');
-           kaboomSnd = game.add.audio('boomSound',true);
-           kaboomSnd.play();
+     kaboom = game.add.group();
+     kaboom.createMultiple(35,'kaboom');
+     kaboomSnd = game.add.audio('boomSound',true);
+     kaboomSnd.play();
 
 //Adds the explosion animation when alien is shot.
-           var explosion = kaboom.getFirstExists(false);
-           explosion.animations.add('kaboom', [0,1]);
-           explosion.animations.play('kaboom', 2, false, true);
-           explosion.reset(alien.body.x, alien.body.y);
+     var explosion = kaboom.getFirstExists(false);
+     explosion.animations.add('kaboom', [0,1]);
+     explosion.animations.play('kaboom', 2, false, true);
+     explosion.reset(alien.body.x, alien.body.y);
 
+     score += 200;
+     scoreTxt.text = "Score: " + score;
 
-           score += 200;
-           scoreTxt.text = "Score: " + score;
-             if(aliens.countLiving() === 0){
-               winTxt.visible = true;
-               game.input.onTap.addOnce(nextRound);
-               explosion.reset();
-             }
+        if(aliens.countLiving() === 0){
+           winTxt.visible = true;
+           game.input.onTap.addOnce(nextRound);
          }
+ }
 
 //Enemy and player collision.
-         function enemyCollision(player, bullet){
+function enemyCollision(player, bullet){
 //Gets the first heart in the group.
-           live = lives.getFirstAlive();
-           score -= 500;
-           scoreTxt.text = "Score: " + score ;
+    live = lives.getFirstAlive();
+    score -= 500;
+    scoreTxt.text = "Score: " + score ;
 
 
-           if(live){
-             live.kill();
-             player.reset(32, game.world.height -175);
-           }
+      if(live){
+         live.kill();
+         player.reset(32, game.world.height -175);
+      }
 
  //If lives are gone, kill player and display text!
-           if(lives.countLiving() === 0){
-             player.kill();
-             bullet.kill();
-             deadTxt.visible = true;
+     if(lives.countLiving() === 0){
+        player.kill();
+        bullet.kill();
+        deadTxt.visible = true;
 
-             game.input.onTap.addOnce(restart);
-           }
-         }
+        game.input.onTap.addOnce(restart);
+      }
+}
 
 //loops the hearts and appends them to the page, with a space of 70px between each other.
          function gemFall(){
@@ -154,7 +158,7 @@ function start(){
 
 
 //Starts the next round of aliens.
-         function nextRound(){
+      function nextRound(){
            aliens.callAll('kill');
            gems.callAll('kill');
            winTxt.visible = false;
@@ -167,7 +171,7 @@ function start(){
          }
 
 // Resets the canvas when player dies.
-         function restart(){
+        function restart(){
             game.world.setBounds(0, 0, 1900, 605);
             aliens.callAll('kill');
             lives.callAll('revive');
@@ -202,8 +206,6 @@ var gameState = {
     game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
 
-  //  game.load.image('Mac', 'assets/Mac.png');
-
 
   },
   create: function(){
@@ -219,7 +221,7 @@ var gameState = {
     grass.scale.setTo(2,8);
     grass.body.immovable = true;
 
- //Adding multiple platforms to the game.
+//Adding multiple platforms to the game.
     var ledge = platforms.create(300, 400, 'platform');
     ledge.body.immovable = true;
 
@@ -229,10 +231,12 @@ var gameState = {
     ledge = platforms.create(1400, 300, 'platform');
     ledge.body.immovable = true;
 
-    //Creates the player an puts it on the canvas.
+//Creates the player an puts it on the canvas.
     player = game.add.sprite(32, game.world.height -175, "Mac");
 
     game.physics.arcade.enable(player);
+
+//Loads the audio files to the correct variables.
     jumpSnd = game.add.audio('jumpSound');
     landSnd = game.add.audio('jumpLand',true);
     gunSound = game.add.audio('shot', true);
@@ -303,7 +307,6 @@ var gameState = {
   roundTxt = game.add.text(350, 16, "Round: 0",{fontSize: '32px', fill: '#000'});
   roundTxt.visible = true;
   roundTxt.fixedToCamera = true;
-  game.time.events.add(Phaser.Timer.SECOND * 1, stop );
 
 
 
@@ -366,7 +369,6 @@ else
 
 fireButton.onDown.add(function (){
   fireGun();
-  gunSound.play();
 });
 
   if (cursors.up.isDown && player.body.touching.down && onPlatform ){
@@ -392,6 +394,8 @@ function fireGun(){
   if (game.time.now > bulletTime)
     {
       var bullet;
+      gunSound.play();
+
 
 
       bulletTime = game.time.now + 150;
@@ -406,7 +410,6 @@ function fireGun(){
         bullets.createMultiple(50,'bullets');
         game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.anchor.setTo(0.5, 0);
-        bullet.body.velocity.y = 0;
 
       if(facing == "right"){
         bullet.anchor.setTo(0.5, 0);

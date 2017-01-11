@@ -14,7 +14,7 @@ gulp.task('connect', function() {
     return connect.server({
         root: [outputDir],
         port: 8888, // optional
-        livereload: false
+        livereload: true
     });
 });
 
