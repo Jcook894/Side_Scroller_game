@@ -155,8 +155,6 @@ function enemyCollision(player, bullet){
 
 
 
-
-
 //Starts the next round of aliens.
       function nextRound(){
            aliens.callAll('kill');
@@ -168,6 +166,11 @@ function enemyCollision(player, bullet){
            round += 1;
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
+
+            if(round === 5){
+              aliens.destroy();
+            }
+
          }
 
 // Resets the canvas when player dies.
@@ -209,6 +212,8 @@ var gameState = {
 
   },
   create: function(){
+   game.scale.pageAlignHorizontally = true;game.scale.pageAlignVertically = true;game.scale.refresh();
+
 // Give the game arcade like physics.
     game.physics.startSystem(Phaser.Physics.ARCADE);
 //Appends the sky background.
@@ -394,7 +399,6 @@ function fireGun(){
   if (game.time.now > bulletTime)
     {
       var bullet;
-      gunSound.play();
 
 
 
@@ -410,6 +414,8 @@ function fireGun(){
         bullets.createMultiple(50,'bullets');
         game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.anchor.setTo(0.5, 0);
+        gunSound.play();
+
 
       if(facing == "right"){
         bullet.anchor.setTo(0.5, 0);
