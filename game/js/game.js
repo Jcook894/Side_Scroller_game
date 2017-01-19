@@ -195,6 +195,7 @@ function enemyCollision(player, bullet){
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
+    game.load.spritesheet('boss','assets/Boss.png', 250, 150);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
@@ -208,8 +209,6 @@ var gameState = {
     game.load.image('platform','assets/platform.png');
     game.load.image('grass', 'assets/grass1.png');
     game.load.image('background', 'assets/bckgrnd.png');
-
-
   },
   create: function(){
    game.scale.pageAlignHorizontally = true;game.scale.pageAlignVertically = true;game.scale.refresh();
