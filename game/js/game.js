@@ -47,6 +47,7 @@ function  createBoss(){
   boss.createMultiple(35, 'boss', 0, false);
 
 
+
 }
 
 //land sound collision check.
@@ -96,14 +97,24 @@ function resurrect() {
 }
 
 function bossRessurect(){
+  boss.callAll('animations.add', 'animations', 'fly3', [0,1,2,3], 600, true);
+  boss.callAll('play', null, 'fly3');
+
   motherShip = boss.getFirstDead();
+
 
   if(motherShip){
      motherShip.reset(game.world.randomX       ,game.world.randomY);
      motherShip.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
      motherShip.body.bounce.setTo(0.5, 0.5);           motherShip.body.collideWorldBounds = true;
      motherShip.frame = game.rnd.integerInRange(0,36);
+
+
+
   }
+
+
+
 
 }
 
@@ -286,6 +297,9 @@ var gameState = {
 // Adds hearts into a group.
     gems = game.add.group();
     gems.enableBody = true;
+
+
+
 
 
 
