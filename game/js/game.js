@@ -97,7 +97,7 @@ function resurrect() {
 }
 
 function bossRessurect(){
-  boss.callAll('animations.add', 'animations', 'fly3', [0,1,2,3], 600, true);
+  boss.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4], 10, true);
   boss.callAll('play', null, 'fly3');
 
   motherShip = boss.getFirstDead();
@@ -234,7 +234,7 @@ function enemyCollision(player, bullet){
 var gameState = {
 //Loads all the images to the game.
   preload: function(){
-    game.load.spritesheet('boss','assets/Boss.png', 250, 150);
+    game.load.spritesheet('boss','assets/Boss.png', 277, 150);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
