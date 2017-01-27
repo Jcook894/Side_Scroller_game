@@ -16,6 +16,7 @@ var bullets;
 var kaboom;
 var kaboomSnd;
 
+var boss;
 var aliens;
 var ufos;
 var gems;
@@ -39,6 +40,16 @@ var gunSound;
 var jumpSnd;
 
 
+//Creates A group of boss aliens.
+function  createBoss(){
+  boss = game.add.group();
+  boss.enableBody = true;
+  boss.createMultiple(35, 'boss', 0, false);
+
+
+}
+
+//land sound collision check.
 function collision(){
 
   if(!executed){
@@ -48,9 +59,8 @@ function collision(){
 
 }
 
-//Starts the the createAliens and startTimer function.
+//Starts the the creates and startTimer function.
 function start(){
-
   createAliens();
   startTimer();
 }
@@ -63,10 +73,13 @@ function createAliens(){
 
 }
 
+function bossTimer(){
+  game.time.events.repeat(Phaser.Timer.SECOND, 20, bossRessurect);
+}
+
 function startTimer(){
 
     game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
-
 }
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
 function resurrect() {
@@ -78,6 +91,20 @@ function resurrect() {
          ufos.body.bounce.setTo(0.5, 0.5);           ufos.body.collideWorldBounds = true;
          ufos.frame = game.rnd.integerInRange(0,36);
       }
+
+
+}
+
+function bossRessurect(){
+  motherShip = boss.getFirstDead();
+
+  if(motherShip){
+     motherShip.reset(game.world.randomX       ,game.world.randomY);
+     motherShip.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+     motherShip.body.bounce.setTo(0.5, 0.5);           motherShip.body.collideWorldBounds = true;
+     motherShip.frame = game.rnd.integerInRange(0,36);
+  }
+
 }
 
 // Player and gem collision.
@@ -163,12 +190,13 @@ function enemyCollision(player, bullet){
            gemFall();
            startTimer();
            score += 500;
-           round += 1;
+           round += 5;
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
 
             if(round === 5){
               aliens.destroy();
+              bossTimer();
             }
 
          }
@@ -316,6 +344,7 @@ var gameState = {
 
   start();
   createAliens();
+  createBoss();
   gemFall();
 
 
