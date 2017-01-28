@@ -44,7 +44,7 @@ var jumpSnd;
 function  createBoss(){
   boss = game.add.group();
   boss.enableBody = true;
-  boss.createMultiple(35, 'boss', 0, false);
+  boss.createMultiple(10, 'boss', 0, false);
 
 
 
@@ -97,7 +97,7 @@ function resurrect() {
 }
 
 function bossRessurect(){
-  boss.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4], 10, true);
+  boss.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4], 7, true);
   boss.callAll('play', null, 'fly3');
 
   motherShip = boss.getFirstDead();
