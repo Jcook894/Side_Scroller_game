@@ -16,6 +16,8 @@ var bullets;
 var kaboom;
 var kaboomSnd;
 
+var enemyBullet;
+var livingBoss = [];
 var boss;
 var aliens;
 var ufos;
@@ -163,8 +165,39 @@ function bulletCollision(bullet, alien){
          }
  }
 
+//Boss bullet group.
+ function bossFire(){
+
+   enemyBullet = enemyBullets.getFirstExists(false);
+
+     livingBoss.length = 0;
+
+     boss.forEachAlive(function(boss){
+
+       livingBoss.push(boss);
+     });
+
+     if(enemyBullet && livingBoss.length > 0){
+
+       var random = game.rnd.integerInRange(0, livingBoss.length-1);
+
+       //selects a random shooter thats still avir
+       var shooter = livingBoss[random];
+       enemyBullet.reset(shooter.body.x, shooter.body.y);
+
+       game.physics.arcade.moveToObject(enemyBullet, player, 120);
+     }
+
+
+
+
+   }
+
+
 //Enemy and player collision.
 function enemyCollision(player, bullet){
+
+
 //Gets the first heart in the group.
     live = lives.getFirstAlive();
     score -= 500;
@@ -244,6 +277,7 @@ var gameState = {
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
     game.load.image('bullets', 'assets/bullet.png');
+    game.load.image('enemyBullet', 'assets/bossBullet.png');
     game.load.audio('shot',['SoundEffects/gunShot.ogg']);
     game.load.audio('boomSound',['SoundEffects/explosion.wav']);
     game.load.audio('jumpSound',['SoundEffects/jump_07.wav']);
@@ -328,6 +362,15 @@ var gameState = {
   bullets = game.add.group();
   game.physics.enable(bullets, Phaser.Physics.ARCADE);
   player.anchor.x = 0.5;
+
+  enemyBullets = game.add.group();
+  enemyBullets.enableBody = true;
+  enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+  enemyBullets.createMultiple(50,'enemyBullet');
+  enemyBullets.setAll('anchor.x', -0.5);
+  enemyBullets.setAll('anchor.y', 0);
+  enemyBullets.setAll('outOfBoundsKill', true);
+  enemyBullets.setAll('checkWorldBounds', true);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -420,6 +463,9 @@ else
     }
 
   }
+  if(game.time.now > bulletTime){
+     bossFire();
+   }
 
 fireButton.onDown.add(function (){
   fireGun();
@@ -504,6 +550,8 @@ function fireGun(){
   }
 
 }
+
+
 
 
 };
