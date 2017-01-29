@@ -132,6 +132,13 @@ function bossRessurect(){
 
 }
 
+function bossCollision(boss, bullet) {
+
+    bullet.kill();
+    boss.kill();
+
+
+}
 
 
 //Bullet and enemy collision handler.
@@ -432,6 +439,8 @@ fireButton.onDown.add(function (){
   //player.animations.play('right', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
+
+game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
