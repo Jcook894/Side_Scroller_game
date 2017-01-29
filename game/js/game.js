@@ -33,6 +33,7 @@ var roundTxt;
 var cursors;
 var executed;
 
+var bossBulletTime = 0;
 var bulletTime = 0;
 var timeDelay = 0;
 var fireButton;
@@ -167,7 +168,7 @@ function bulletCollision(bullet, alien){
 
 //Boss bullet group.
  function bossFire(){
-
+   bossBulletTime = game.time.now + 600 ;
    enemyBullet = enemyBullets.getFirstExists(false);
 
      livingBoss.length = 0;
@@ -367,8 +368,8 @@ var gameState = {
   enemyBullets.enableBody = true;
   enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
   enemyBullets.createMultiple(50,'enemyBullet');
-  enemyBullets.setAll('anchor.x', -0.5);
-  enemyBullets.setAll('anchor.y', 0);
+  enemyBullets.setAll('anchor.x', -4.6);
+  enemyBullets.setAll('anchor.y', -5);
   enemyBullets.setAll('outOfBoundsKill', true);
   enemyBullets.setAll('checkWorldBounds', true);
 
@@ -463,7 +464,9 @@ else
     }
 
   }
-  if(game.time.now > bulletTime){
+  if(game.time.now > bossBulletTime){
+
+
      bossFire();
    }
 
