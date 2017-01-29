@@ -44,7 +44,7 @@ var jumpSnd;
 function  createBoss(){
   boss = game.add.group();
   boss.enableBody = true;
-  boss.createMultiple(10, 'boss', 0, false);
+  boss.createMultiple(6, 'boss', 0, false);
 
 
 
@@ -74,6 +74,8 @@ function createAliens(){
 
 }
 
+
+//Timers for the mothership and aliens.
 function bossTimer(){
   game.time.events.repeat(Phaser.Timer.SECOND, 20, bossRessurect);
 }
@@ -82,6 +84,7 @@ function startTimer(){
 
     game.time.events.repeat(Phaser.Timer.SECOND, 20, resurrect);
 }
+
 //ressurects the alien from the group and adds it to the group, and gives it movement & physics.
 function resurrect() {
     ufos = aliens.getFirstDead();
@@ -105,15 +108,11 @@ function bossRessurect(){
 
   if(motherShip){
      motherShip.reset(game.world.randomX       ,game.world.randomY);
-     motherShip.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+     motherShip.body.velocity.setTo(20 + Math.random() * 80, 20 + Math.random() * 80);
      motherShip.body.bounce.setTo(0.5, 0.5);           motherShip.body.collideWorldBounds = true;
      motherShip.frame = game.rnd.integerInRange(0,36);
 
-
-
   }
-
-
 
 
 }
@@ -132,6 +131,8 @@ function bossRessurect(){
      livesTxt.text = "Lives: " + live;
 
 }
+
+
 
 //Bullet and enemy collision handler.
 function bulletCollision(bullet, alien){
@@ -433,6 +434,8 @@ fireButton.onDown.add(function (){
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
+
+game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
 
 game.physics.arcade.collide(aliens, platforms);
 game.physics.arcade.collide(gems, platforms);
