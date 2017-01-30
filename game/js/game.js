@@ -23,6 +23,7 @@ var aliens;
 var ufos;
 var gems;
 
+
 var score = 0;
 var round = 0;
 var scoreTxt;
@@ -32,6 +33,7 @@ var roundTxt;
 
 var cursors;
 var executed;
+
 
 var bossBulletTime = 0;
 var bulletTime = 0;
@@ -94,7 +96,7 @@ function resurrect() {
 
       if(ufos){
          ufos.reset(game.world.randomX       ,game.world.randomY);
-         ufos.body.velocity.setTo(10 + Math.random() * 40, 10 + Math.random() * 40);
+         ufos.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
          ufos.body.bounce.setTo(0.5, 0.5);           ufos.body.collideWorldBounds = true;
          ufos.frame = game.rnd.integerInRange(0,36);
       }
@@ -240,16 +242,36 @@ function enemyCollision(player, bullet){
            gemFall();
            startTimer();
            score += 500;
-           round += 5;
+           round += 1;
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
+           bossRounds();
 
-            if(round === 5){
-              aliens.destroy();
-              bossTimer();
-            }
+
+
 
          }
+
+
+function bossRounds() {
+  var bossRound = 1;
+
+  aliens.callAll('kill');
+  winTxt.visible = false;
+
+    if(bossRound === round){
+      aliens.destroy();
+      bossTimer();
+
+   }
+
+   if(boss.countLiving() === 0){
+     winTxt.visible = true;
+     game.input.onTap.addOnce(nextRound);
+
+   }
+
+}
 
 // Resets the canvas when player dies.
         function restart(){
@@ -485,6 +507,8 @@ fireButton.onDown.add(function (){
   //player.animations.play('right', 10, true);
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
+
+game.physics.arcade.overlap(bullets, boss, bulletCollision, null, this);
 
 game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
