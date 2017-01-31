@@ -52,7 +52,6 @@ function  createBoss(){
   boss.createMultiple(6, 'boss', 0, false);
 
 
-
 }
 
 //land sound collision check.
@@ -117,6 +116,8 @@ function bossRessurect(){
      motherShip.frame = game.rnd.integerInRange(0,36);
 
   }
+
+
 
 
 }
@@ -250,21 +251,14 @@ function enemyCollision(player, bullet){
            }
 
 
-
          }
 
 
 function bossRounds() {
+    aliens.destroy();
+    winTxt.visible = false;
+    bossTimer();
 
-      winTxt.visible = false;
-      bossTimer();
-
-
-
-   if(boss.countLiving() === 0){
-     game.input.onTap.addOnce(nextRound);
-
-   }
 
 }
 
@@ -505,13 +499,12 @@ fireButton.onDown.add(function (){
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
-game.physics.arcade.overlap(bullets, boss, bulletCollision, null, this);
 
 game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
-game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
+game.physics.arcade.overlap(player, enemyBullet, enemyCollision, null, this);
 
 
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
