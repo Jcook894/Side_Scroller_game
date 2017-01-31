@@ -52,6 +52,7 @@ function  createBoss(){
   boss.createMultiple(6, 'boss', 0, false);
 
 
+
 }
 
 //land sound collision check.
@@ -192,7 +193,12 @@ function bulletCollision(bullet, alien){
        game.physics.arcade.moveToObject(enemyBullet, player, 120);
      }
 
+     if(livingBoss.length === 0){
+       console.log('killed em');
+     }
 
+
+     console.log(livingBoss);
 
 
    }
@@ -258,6 +264,7 @@ function bossRounds() {
     aliens.destroy();
     winTxt.visible = false;
     bossTimer();
+
 
 
 }
@@ -411,6 +418,13 @@ var gameState = {
   winTxt = game.add.text(80, 250, "You Win the round!!!! Click here to play the next one!");
   winTxt.visible = false;
   winTxt.fixedToCamera = true;
+
+// When you kill the motherships, you move on
+// to the next round.
+
+  bossTxt = game.add.text(80, 250, "You survived the mother ships! get ready for the next round...");
+  bossTxt.visible = false;
+  bossTxt.fixedToCamera = true;
 
 //Text telling you what round you are on.
 
