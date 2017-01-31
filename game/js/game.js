@@ -23,7 +23,7 @@ var aliens;
 var ufos;
 var gems;
 
-
+var bossRound = 1;
 var score = 0;
 var round = 0;
 var scoreTxt;
@@ -245,8 +245,9 @@ function enemyCollision(player, bullet){
            round += 1;
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
-           bossRounds();
-
+           if(round === bossRound){
+             bossRounds();
+           }
 
 
 
@@ -254,19 +255,13 @@ function enemyCollision(player, bullet){
 
 
 function bossRounds() {
-  var bossRound = 1;
 
-  aliens.callAll('kill');
-  winTxt.visible = false;
-
-    if(bossRound === round){
-      aliens.destroy();
+      winTxt.visible = false;
       bossTimer();
 
-   }
+
 
    if(boss.countLiving() === 0){
-     winTxt.visible = true;
      game.input.onTap.addOnce(nextRound);
 
    }
@@ -276,6 +271,7 @@ function bossRounds() {
 // Resets the canvas when player dies.
         function restart(){
             game.world.setBounds(0, 0, 1900, 605);
+            boss.callAll('kill');
             aliens.callAll('kill');
             lives.callAll('revive');
             gems.callAll('kill');
@@ -287,6 +283,7 @@ function bossRounds() {
             roundTxt.text = "Round: " + round;
             gemFall();
             startTimer();
+
 
          }
 
@@ -513,6 +510,9 @@ game.physics.arcade.overlap(bullets, boss, bulletCollision, null, this);
 game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
+
+game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
+
 
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
 
