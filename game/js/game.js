@@ -53,6 +53,8 @@ function  createBoss(){
 
 
 
+
+
 }
 
 //land sound collision check.
@@ -116,6 +118,7 @@ function bossRessurect(){
      motherShip.body.bounce.setTo(0.5, 0.5);           motherShip.body.collideWorldBounds = true;
      motherShip.frame = game.rnd.integerInRange(0,36);
 
+
   }
 
 
@@ -138,9 +141,13 @@ function bossRessurect(){
 
 }
 
-function bossCollision(boss,bullet) {
-      boss.kill();
+function bossCollision(bosses,bullet) {
+      bosses.kill();
       bullet.kill();
+      if(boss.countLiving() === 0){
+        console.log(boss.countLiving());
+        bossTxt.visible = true;
+      }
 
 }
 
@@ -193,12 +200,11 @@ function bulletCollision(bullet, alien){
        game.physics.arcade.moveToObject(enemyBullet, player, 120);
      }
 
-     if(livingBoss.length === 0){
+
+     if(boss.length === 0){
        console.log('killed em');
+       bossTxt.visible = true;
      }
-
-
-     console.log(livingBoss);
 
 
    }
@@ -264,6 +270,7 @@ function bossRounds() {
     aliens.destroy();
     winTxt.visible = false;
     bossTimer();
+
 
 
 
@@ -422,7 +429,8 @@ var gameState = {
 // When you kill the motherships, you move on
 // to the next round.
 
-  bossTxt = game.add.text(80, 250, "You survived the mother ships! get ready for the next round...");
+  bossTxt = game.add.text(10, 200, "You survived the motherships! " +
+  " Get ready for the next round...");
   bossTxt.visible = false;
   bossTxt.fixedToCamera = true;
 
