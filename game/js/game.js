@@ -51,10 +51,6 @@ function  createBoss(){
   boss.enableBody = true;
   boss.createMultiple(6, 'boss', 0, false);
 
-
-
-
-
 }
 
 //land sound collision check.
@@ -147,6 +143,9 @@ function bossCollision(bosses,bullet) {
       if(boss.countLiving() === 0){
         console.log(boss.countLiving());
         bossTxt.visible = true;
+        game.input.onTap.addOnce(nextRound);
+
+
       }
 
 }
@@ -201,11 +200,6 @@ function bulletCollision(bullet, alien){
      }
 
 
-     if(boss.length === 0){
-       console.log('killed em');
-       bossTxt.visible = true;
-     }
-
 
    }
 
@@ -249,11 +243,12 @@ function enemyCollision(player, bullet){
 
 //Starts the next round of aliens.
       function nextRound(){
-           aliens.callAll('kill');
+
            gems.callAll('kill');
+           boss.callAll('kill');
+           bossTxt.visible = false;
            winTxt.visible = false;
            gemFall();
-           startTimer();
            score += 500;
            round += 1;
            scoreTxt.text = "Score: " + score;
@@ -261,6 +256,11 @@ function enemyCollision(player, bullet){
            if(round === bossRound){
              bossRounds();
            }
+           else {
+             start();
+             console.log(aliens.countLiving());
+           }
+
 
 
          }
@@ -290,7 +290,7 @@ function bossRounds() {
             scoreTxt.text = "Score: " + score;
             roundTxt.text = "Round: " + round;
             gemFall();
-            startTimer();
+            start();
 
 
          }
