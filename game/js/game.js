@@ -259,7 +259,13 @@ function enemyCollision(player, bullet){
           }
 
 function roundStart(){
-  var tehRoundz = 1;
+  for(var i = 0; i < bossRound.length; i++){
+    console.log(bossRound[0]);
+    tehRoundz = bossRound[0];
+  }
+  console.log(tehRoundz);
+
+  //var tehRoundz = 1;
   createAliens();
   createBoss();
   if(round === tehRoundz){
@@ -451,7 +457,6 @@ var gameState = {
 
 
   roundStart();
-
   gemFall();
 
 
