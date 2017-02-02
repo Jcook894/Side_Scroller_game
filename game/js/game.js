@@ -23,7 +23,7 @@ var aliens;
 var ufos;
 var gems;
 
-var bossRound = 1;
+var bossRound = [1,3,5];
 var score = 0;
 var round = 0;
 var scoreTxt;
@@ -62,6 +62,8 @@ function collision(){
   }
 
 }
+
+
 
 //Starts the the creates and startTimer function.
 function start(){
@@ -240,10 +242,9 @@ function enemyCollision(player, bullet){
          }
 
 
-
 //Starts the next round of aliens.
       function nextRound(){
-
+           roundStart();
            gems.callAll('kill');
            boss.callAll('kill');
            bossTxt.visible = false;
@@ -253,17 +254,23 @@ function enemyCollision(player, bullet){
            round += 1;
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
-           if(round === bossRound){
-             bossRounds();
-           }
-           else {
-             start();
-             console.log(aliens.countLiving());
-           }
+           console.log(round);
 
+          }
 
+function roundStart(){
 
-         }
+    if(round === 1){
+
+    bossTimer();
+    aliens.destroy();
+  }
+
+   else {  console.log("alien " + round);
+    start();
+  }
+}
+
 
 
 function bossRounds() {
@@ -441,8 +448,7 @@ var gameState = {
   roundTxt.fixedToCamera = true;
 
 
-
-  start();
+  roundStart();
   createAliens();
   createBoss();
   gemFall();
