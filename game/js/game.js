@@ -258,22 +258,26 @@ function enemyCollision(player, bullet){
 
           }
 
+  bossRound.forEach(function(element){
+    console.log(element);
+    return element;
+
+  });
+
+
 function roundStart(){
-  for(var i = 0; i < bossRound.length; i++){
-    console.log(bossRound[0]);
-    tehRoundz = bossRound[0];
-  }
-  console.log(tehRoundz);
+
+  console.log(bossRound);
 
   //var tehRoundz = 1;
   createAliens();
   createBoss();
-  if(round === tehRoundz){
+  if(round === bossRound){
     bossRounds();
   }
   else {
     boss.destroy();
-    console.log(round);
+    console.log("alien spawn " + round);
     start();
     }
 }
