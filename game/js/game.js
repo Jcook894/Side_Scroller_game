@@ -259,16 +259,14 @@ function enemyCollision(player, bullet){
           }
 
 function roundStart(){
-
-    if(round === 1){
-
-    bossTimer();
-    aliens.destroy();
+  var tehRoundz = 1;
+  if(round === tehRoundz){
+    bossRounds();
   }
-
-   else {  console.log("alien " + round);
+  else if(round === round) {
+    console.log(round);
     start();
-  }
+    }
 }
 
 
@@ -297,7 +295,8 @@ function bossRounds() {
             scoreTxt.text = "Score: " + score;
             roundTxt.text = "Round: " + round;
             gemFall();
-            start();
+            roundStart();
+
 
 
          }
