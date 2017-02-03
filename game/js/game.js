@@ -23,7 +23,6 @@ var aliens;
 var ufos;
 var gems;
 
-var bossRound = [1,3,5];
 var score = 0;
 var round = 0;
 var scoreTxt;
@@ -143,7 +142,6 @@ function bossCollision(bosses,bullet) {
       bosses.kill();
       bullet.kill();
       if(boss.countLiving() === 0){
-        console.log(boss.countLiving());
         bossTxt.visible = true;
         game.input.onTap.addOnce(nextRound);
 
@@ -244,42 +242,39 @@ function enemyCollision(player, bullet){
 
 //Starts the next round of aliens.
       function nextRound(){
-           roundStart();
+           round += 1;
+           score += 500;
+           roundStart(round);
+           console.log(round);
+           scoreTxt.text = "Score: " + score;
+           roundTxt.text = "Round:" + round;
            gems.callAll('kill');
            boss.callAll('kill');
            bossTxt.visible = false;
            winTxt.visible = false;
-           gemFall();
-           score += 500;
-           round += 1;
-           scoreTxt.text = "Score: " + score;
-           roundTxt.text = "Round:" + round;
-           console.log(round);
 
           }
 
-  bossRound.forEach(function(element){
-    console.log(element);
-    return element;
 
-  });
+function roundStart(theRound){
+  var bossLevel = [1,2,4,6];
+  var isBossLevel = bossLevel.indexOf(round);
 
 
-function roundStart(){
+  console.log("this  " + isBossLevel);
 
-  console.log(bossRound);
 
-  //var tehRoundz = 1;
+
   createAliens();
   createBoss();
-  if(round === bossRound){
+  if(isBossLevel === 0){
     bossRounds();
   }
   else {
     boss.destroy();
     console.log("alien spawn " + round);
     start();
-    }
+  }
 }
 
 
