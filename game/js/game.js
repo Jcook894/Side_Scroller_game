@@ -244,6 +244,7 @@ function enemyCollision(player, bullet){
       function nextRound(){
            round += 1;
            score += 500;
+           gemFall();
            roundStart(round);
            console.log(round);
            scoreTxt.text = "Score: " + score;
@@ -259,14 +260,11 @@ function enemyCollision(player, bullet){
 function roundStart(theRound){
   var bossLevel = [1,2,4,6];
   var isBossLevel = bossLevel.indexOf(round);
-
+  createAliens();
+  createBoss();
 
   console.log("this  " + isBossLevel);
 
-
-
-  createAliens();
-  createBoss();
   if(isBossLevel === 0){
     bossRounds();
   }
