@@ -150,6 +150,11 @@ function bossCollision(bosses,bullet) {
 
 }
 
+function bossBulletCollision(){
+    enemyBullet.kill();
+    live.kill();
+}
+
 
 //Bullet and enemy collision handler.
 function bulletCollision(bullet, alien){
@@ -535,7 +540,7 @@ game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
 game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
-game.physics.arcade.overlap(player, enemyBullet, enemyCollision, null, this);
+game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
 
 
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
