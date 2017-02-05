@@ -244,13 +244,13 @@ function enemyCollision(player, bullet){
       function nextRound(){
            round += 1;
            score += 500;
-           gemFall();
            roundStart(round);
            console.log(round);
            scoreTxt.text = "Score: " + score;
            roundTxt.text = "Round:" + round;
            gems.callAll('kill');
            boss.callAll('kill');
+           gemFall();
            bossTxt.visible = false;
            winTxt.visible = false;
 
@@ -258,14 +258,14 @@ function enemyCollision(player, bullet){
 
 
 function roundStart(theRound){
-  var bossLevel = [1,2,4,6];
+  var bossLevel = [1,2,4];
   var isBossLevel = bossLevel.indexOf(round);
   createAliens();
   createBoss();
 
   console.log("this  " + isBossLevel);
 
-  if(isBossLevel === 0){
+  if(isBossLevel < 0){
     bossRounds();
   }
   else {
