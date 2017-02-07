@@ -59,6 +59,7 @@ function alienWalkers(){
   walkers.createMultiple(15, 'walkers', 0, false);
 
 
+
 }
 
 
@@ -76,6 +77,9 @@ function walkerRessurect(){
      walk.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
      walk.body.bounce.setTo(0.5, 0.5);           walk.body.collideWorldBounds = true;
      walk.frame = game.rnd.integerInRange(0,36);
+     walk.animations.add('left',[0,1,2,3]);
+
+     walk.animations.play('left');
   }
 }
 //land sound collision check.
@@ -327,6 +331,7 @@ function bossRounds() {
         function restart(){
             game.world.setBounds(0, 0, 1900, 605);
             boss.callAll('kill');
+            enemyBullets.callAll('kill');
             aliens.callAll('kill');
             lives.callAll('revive');
             gems.callAll('kill');
@@ -349,7 +354,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.image('boss','assets/Boss.png');
-    game.load.spritesheet('walkers', 'assets/walking_aliens.png');
+    game.load.spritesheet('walkers', 'assets/walking_aliens.png',49.5, 60);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
