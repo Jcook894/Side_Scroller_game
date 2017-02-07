@@ -78,6 +78,7 @@ function roversRessurect(){
   if(drive){
      drive.reset(game.world.randomX       ,game.world.randomY);
      /*drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);*/
+     drive.body.velocity.setTo(150 , 150);
      drive.body.bounce.setTo(0.5, 0.5);
      drive.body.collideWorldBounds = true;
      drive.body.gravity.y = 100;
