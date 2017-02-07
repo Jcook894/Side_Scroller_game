@@ -77,8 +77,11 @@ function roversRessurect(){
 
   if(drive){
      drive.reset(game.world.randomX       ,game.world.randomY);
-     drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
-     drive.body.bounce.setTo(0.5, 0.5);           drive.body.collideWorldBounds = true;
+     /*drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);*/
+     drive.body.bounce.setTo(0.5, 0.5);
+     drive.body.collideWorldBounds = true;
+     drive.body.gravity.y = 100;
+
      drive.frame = game.rnd.integerInRange(0,36);
 
   }
@@ -587,6 +590,7 @@ game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
 
 game.physics.arcade.collide(aliens, platforms);
+game.physics.arcade.collide(rovers, platforms);
 game.physics.arcade.collide(gems, platforms);
 game.physics.arcade.overlap(player, gems, collectGems, null, this);
 
