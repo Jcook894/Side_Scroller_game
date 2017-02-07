@@ -19,7 +19,7 @@ var kaboomSnd;
 var enemyBullet;
 var livingBoss = [];
 var boss;
-var walkers;
+var rovers;
 var aliens;
 var ufos;
 var gems;
@@ -53,34 +53,36 @@ function  createBoss(){
 
 }
 
-function alienWalkers(){
-  walkers = game.add.group();
-  walkers.enableBody = true;
-  walkers.createMultiple(15, 'walkers', 0, false);
+function alienRovers(){
+  rovers = game.add.group();
+  rovers.enableBody = true;
+  rovers.createMultiple(15, 'rovers', 0, false);
 
 
 
 }
 
 
-function walkerTimer(){
-    game.time.events.repeat(Phaser.Timer.SECOND, 20, walkerRessurect);
+function roversTimer(){
+    game.time.events.repeat(Phaser.Timer.SECOND, 20, roversRessurect);
 
 
 }
 
-function walkerRessurect(){
-  walk = walkers.getFirstDead();
+function roversRessurect(){
+  walk = rovers.getFirstDead();
+  rovers.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4], 7, true);
+    rovers.callAll('play', null, 'fly3');		rovers.callAll('play', null, 'fly3');
+
 
   if(walk){
      walk.reset(game.world.randomX       ,game.world.randomY);
      walk.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
      walk.body.bounce.setTo(0.5, 0.5);           walk.body.collideWorldBounds = true;
      walk.frame = game.rnd.integerInRange(0,36);
-     walk.animations.add('left',[0,1,2,3]);
 
-     walk.animations.play('left');
   }
+
 }
 //land sound collision check.
 function collision(){
@@ -302,19 +304,20 @@ function roundStart(theRound){
 
   if(isBossLevel < 0){
     bossRounds();
+    roversRound();
   }
   else {
     boss.destroy();
     console.log("alien spawn " + round);
     start();
-    walkerRound();
+
   }
 }
 
-function walkerRound(){
+function roversRound(){
   aliens.destroy();
   winTxt.visible = false;
-  walkerTimer();
+  roversTimer();
 }
 
 function bossRounds() {
@@ -354,7 +357,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.image('boss','assets/Boss.png');
-    game.load.spritesheet('walkers', 'assets/walking_aliens.png',49.5, 60);
+    game.load.spritesheet('rovers', 'assets/alien_rover.png',30.8, 60);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
@@ -497,7 +500,7 @@ var gameState = {
 
   roundStart();
   gemFall();
-  alienWalkers();
+  alienRovers();
 
 
 
