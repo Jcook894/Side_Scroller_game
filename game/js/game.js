@@ -70,16 +70,16 @@ function roversTimer(){
 }
 
 function roversRessurect(){
-  walk = rovers.getFirstDead();
-  rovers.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4], 7, true);
-    rovers.callAll('play', null, 'fly3');		rovers.callAll('play', null, 'fly3');
+  drive = rovers.getFirstDead();
+  rovers.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4,5], 10, true);
+    rovers.callAll('play', null, 'fly3');
 
 
-  if(walk){
-     walk.reset(game.world.randomX       ,game.world.randomY);
-     walk.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
-     walk.body.bounce.setTo(0.5, 0.5);           walk.body.collideWorldBounds = true;
-     walk.frame = game.rnd.integerInRange(0,36);
+  if(drive){
+     drive.reset(game.world.randomX       ,game.world.randomY);
+     drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);
+     drive.body.bounce.setTo(0.5, 0.5);           drive.body.collideWorldBounds = true;
+     drive.frame = game.rnd.integerInRange(0,36);
 
   }
 
@@ -357,7 +357,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.image('boss','assets/Boss.png');
-    game.load.spritesheet('rovers', 'assets/alien_rover.png',30.8, 60);
+    game.load.spritesheet('rovers', 'assets/alien_rover.png',44.5, 60);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
