@@ -94,6 +94,12 @@ function roverCollision(bullet, rover){
   bullet.kill();
   rover.kill();
 
+    if(rovers.countLiving() === 0){
+      roverTxt.visible = true;
+      game.input.onTap.addOnce(nextRound);
+
+    }
+
 }
 //land sound collision check.
 function collision(){
@@ -196,6 +202,7 @@ function bossCollision(bosses,bullet) {
 function bossBulletCollision(){
     enemyBullet.kill();
     live.kill();
+
 }
 
 
@@ -270,7 +277,7 @@ function enemyCollision(player, bullet){
  //If lives are gone, kill player and display text!
      if(lives.countLiving() === 0){
         player.kill();
-        bullet.kill();
+        bullet.destroy();
         deadTxt.visible = true;
 
         game.input.onTap.addOnce(restart);
@@ -301,27 +308,32 @@ function enemyCollision(player, bullet){
            gemFall();
            bossTxt.visible = false;
            winTxt.visible = false;
+           roverTxt.visible = false;
 
           }
 
 
 function roundStart(theRound){
-  var bossLevel = [1,2,4];
-  var isBossLevel = bossLevel.indexOf(round);
+  var level = [1,2,4];
+  var isLevel = level.indexOf(round);
   createAliens();
   createBoss();
 
-  console.log("this  " + isBossLevel);
+  console.log("this  " + isLevel);
 
-  if(isBossLevel < 0){
-    bossRounds();
+  if(isLevel < 0){
+    //bossRounds();
     roversRound();
+    boss.destroy();
   }
-  else {
+  else if(isLevel > 0){
     boss.destroy();
     console.log("alien spawn " + round);
     start();
 
+  }
+  else{
+    bossRounds();
   }
 }
 
@@ -501,6 +513,11 @@ var gameState = {
   " Get ready for the next round...");
   bossTxt.visible = false;
   bossTxt.fixedToCamera = true;
+
+
+  roverTxt = game.add.text(60, 250, "You killed the the alien rovers! Click for the next round");
+  roverTxt.visible = true;
+  roverTxt.fixedToCamera = true;
 
 //Text telling you what round you are on.
 
