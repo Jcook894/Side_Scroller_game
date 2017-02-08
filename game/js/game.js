@@ -78,7 +78,7 @@ function roversRessurect(){
   if(drive){
      drive.reset(game.world.randomX       ,game.world.randomY);
      /*drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);*/
-     drive.body.velocity.setTo(150 , 150);
+     drive.body.velocity.setTo(200 , 0);
      drive.body.bounce.setTo(0.5, 0.5);
      drive.body.collideWorldBounds = true;
      drive.body.gravity.y = 100;
@@ -86,6 +86,13 @@ function roversRessurect(){
      drive.frame = game.rnd.integerInRange(0,36);
 
   }
+
+}
+
+
+function roverCollision(bullet, rover){
+  bullet.kill();
+  rover.kill();
 
 }
 //land sound collision check.
@@ -580,6 +587,7 @@ fireButton.onDown.add(function (){
 //When it collides with platforms dont fall throw, and player collects hearts to get points.
 game.physics.arcade.overlap(bullets, aliens, bulletCollision, null, this);
 
+game.physics.arcade.overlap(bullets, rovers, roverCollision, null, this);
 
 game.physics.arcade.overlap(bullets, boss, bossCollision, null, this);
 
