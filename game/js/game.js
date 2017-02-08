@@ -516,7 +516,7 @@ var gameState = {
 
 
   roverTxt = game.add.text(60, 250, "You killed the the alien rovers! Click for the next round");
-  roverTxt.visible = true;
+  roverTxt.visible = false;
   roverTxt.fixedToCamera = true;
 
 //Text telling you what round you are on.
@@ -612,6 +612,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
 game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
 
+game.physics.arcade.overlap(player, rovers, enemyCollision, null, this);
 
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
 
