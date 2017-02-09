@@ -73,7 +73,7 @@ function roversRessurect(){
 
   if(drive){
      drive.reset(game.world.randomX       ,game.world.randomY);
-     drive.body.velocity.setTo(200 , 100);
+     drive.body.velocity.setTo(200 , 350);
      drive.body.bounce.setTo(0.5, 0.5);
      drive.body.collideWorldBounds = true;
      drive.body.gravity.y = 100;
@@ -383,7 +383,7 @@ var gameState = {
 //Loads all the images to the game.
   preload: function(){
     game.load.image('boss','assets/Boss.png');
-    game.load.spritesheet('rovers', 'assets/alien_rover.png',44.5, 60);
+    game.load.spritesheet('rovers', 'assets/alien_rover.png',44.5, 45);
     game.load.spritesheet('Mac', 'assets/Mac_spritesheet.png', 52, 60);
     game.load.image('aliens', 'assets/Invaders.png');
     game.load.spritesheet('kaboom', 'assets/BOOM.png', 50, 45);
