@@ -93,6 +93,10 @@ function roversRessurect(){
 function roverCollision(bullet, rover){
   bullet.kill();
   rover.kill();
+  score += 100;
+  scoreTxt.text = "Score: " + score;
+
+
 
     if(rovers.countLiving() === 0){
       roverTxt.visible = true;
