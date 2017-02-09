@@ -5,7 +5,6 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS,'gameDiv');
 var player;
 
 var lives;
-var livesTxt;
 var live;
 
 var facing = 'right';
@@ -26,10 +25,7 @@ var gems;
 
 var score = 0;
 var round = 0;
-var scoreTxt;
-var winTxt;
-var deadTxt;
-var roundTxt;
+
 
 var cursors;
 var executed;
