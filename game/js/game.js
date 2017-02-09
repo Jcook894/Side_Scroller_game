@@ -194,6 +194,8 @@ function bossRessurect(){
 function bossCollision(bosses,bullet) {
       bosses.kill();
       bullet.kill();
+      score += 600;
+      scoreTxt.text = "Score: " + score;
       if(boss.countLiving() === 0){
         bossTxt.visible = true;
         game.input.onTap.addOnce(nextRound);
