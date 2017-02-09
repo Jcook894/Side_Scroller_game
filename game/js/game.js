@@ -320,6 +320,7 @@ function roundStart(theRound){
   var isLevel = level.indexOf(round);
   createAliens();
   createBoss();
+  alienRovers();
 
   console.log("this  " + isLevel);
 
@@ -359,6 +360,7 @@ function bossRounds() {
         function restart(){
             game.world.setBounds(0, 0, 1900, 605);
             boss.callAll('kill');
+            rovers.callAll('kill');
             enemyBullets.callAll('kill');
             aliens.callAll('kill');
             lives.callAll('revive');
@@ -450,10 +452,6 @@ var gameState = {
     gems.enableBody = true;
 
 
-
-
-
-
 //Adds a group of lives to the screen.
     lives = game.add.group();
     livesTxt = game.add.text(game.world.width - 100, 10, "Lives: ",{fontSize: '32px', fill: '#000'} );
@@ -530,7 +528,7 @@ var gameState = {
 
   roundStart();
   gemFall();
-  alienRovers();
+
 
 
 
