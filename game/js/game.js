@@ -67,14 +67,13 @@ function roversTimer(){
 
 function roversRessurect(){
   drive = rovers.getFirstDead();
-  rovers.callAll('animations.add', 'animations', 'fly3', [0,1,2,3,4,5], 10, true);
-    rovers.callAll('play', null, 'fly3');
+  rovers.callAll('animations.add', 'animations', 'rovin', [0,1,2,3,4,5], 10, true);
+    rovers.callAll('play', null, 'rovin');
 
 
   if(drive){
      drive.reset(game.world.randomX       ,game.world.randomY);
-     /*drive.body.velocity.setTo(20 + Math.random() * 70, 20 + Math.random() * 70);*/
-     drive.body.velocity.setTo(200 , 0);
+     drive.body.velocity.setTo(200 , 100);
      drive.body.bounce.setTo(0.5, 0.5);
      drive.body.collideWorldBounds = true;
      drive.body.gravity.y = 100;
@@ -421,10 +420,10 @@ var gameState = {
     var ledge = platforms.create(300, 400, 'platform');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(750, 250, 'platform');
+    ledge = platforms.create(850, 250, 'platform');
     ledge.body.immovable = true;
 
-    ledge = platforms.create(1400, 300, 'platform');
+    ledge = platforms.create(1450, 150, 'platform');
     ledge.body.immovable = true;
 
 //Creates the player an puts it on the canvas.
