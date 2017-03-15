@@ -5,7 +5,7 @@
 
 ### How to run:
 
-* To run the game, git clone it to a directory and run this from your command line.\
+* To run the game, git clone it to a directory and run this from your command line.
 
 ```javascript
 npm install 
@@ -16,6 +16,8 @@ npm install
 ```javascript
 gulp
 ```
+* It will start up a local server on localhost:8888
+
 
 ### How to play:
 
