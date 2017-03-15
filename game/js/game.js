@@ -272,7 +272,7 @@ function enemyCollision(player, bullet){
 
       if(live){
          live.kill();
-         player.reset(32, game.world.height -175);
+         player.revive();
       }
 
  //If lives are gone, kill player and display text!
