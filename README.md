@@ -5,10 +5,20 @@
 
 ### How to run:
 
-* To run the game, git clone it to a directory and run a local server from your command line.
-```python
- python -m SimpleHTTPServer 8080
+* To run the game, git clone it to a directory and run this from your command line.
+
+```javascript
+npm install 
 ```
+
+* Once you've downloaded all the dependencies, start the local server by running this in the command line.
+
+```javascript
+gulp
+```
+* It will start up a local server on localhost:8888
+
+
 ### How to play:
 
 * To move the player, use the directional pads, up is to jump.
