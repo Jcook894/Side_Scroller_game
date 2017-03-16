@@ -84,6 +84,10 @@ function roversRessurect(){
 
 }
 
+function crashCollision(live, rover){
+
+}
+
 
 function roverCollision(bullet, rover){
   bullet.kill();
@@ -611,7 +615,7 @@ game.physics.arcade.overlap(player, aliens, enemyCollision, null, this);
 
 game.physics.arcade.overlap(player, enemyBullets, enemyCollision, null, this);
 
-game.physics.arcade.overlap(player, rovers, enemyCollision, null, this);
+game.physics.arcade.collide(player, rovers, enemyCollision, null, this);
 
 game.physics.arcade.overlap(player, boss, enemyCollision, null, this);
 
